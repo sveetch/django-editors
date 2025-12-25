@@ -1,0 +1,12 @@
+include MANIFEST.in
+include LICENCE.txt
+include README.rst
+
+recursive-include django_editors/templates *
+recursive-include django_editors/static *
+recursive-include django_editors/locale *
+
+recursive-exclude tests *
+recursive-exclude sandbox *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
