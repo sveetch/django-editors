@@ -1,0 +1,32 @@
+///
+/// Base layout structure
+///
+/// This is only about layout structure, properties and cosmetic rules are to be
+/// avoided.
+///
+
+.page-body {
+    margin: 0 auto;
+    height: 100%;
+
+    @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: rem-calc(65px) auto;
+        grid-template-areas:
+            "page-header"
+            "page-content";
+        column-gap: 0;
+        row-gap: 0;
+
+        // Header
+        .page-header {
+            grid-area: page-header;
+        }
+
+        // Content
+        .page-content {
+            grid-area: page-content;
+        }
+    }
+}

@@ -1,7 +1,16 @@
 {% extends "demo/base.html" %}
+{% load static %}
+
+{% block header-title %}{{ editor_name }} - {{ block.super }}{% endblock header-title %}
 
 {% block app_content %}{% spaceless %}
-<div class="editor-sample {{ editor_name }}">
-    <h2 class="title">Not yet</h2>
+<div class="editor-sample editor-{{ editor_name }} text-bg-light border border-top-0 h-100 p-4">
+    <h2 class="title">{{ editor_name }}</h2>
+
+    <div class="editor-sample__integration"></div>
 </div>
 {% endspaceless %}{% endblock app_content %}
+
+{% block body-javascript-extra %}
+    <script src="{% static "js/bundle-tiptap.js" %}"></script>
+{% endblock body-javascript-extra %}

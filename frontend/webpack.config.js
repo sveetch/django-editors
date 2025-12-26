@@ -13,7 +13,8 @@ module.exports = {
 
     // Entrypoint JS sources to build
     entry: {
-        main: "./js/main.js",
+        "main": "./js/main.js",
+        "bundle-tiptap": "./js/bundles/tiptap.js",
     },
 
     // Built JS files goes into sandbox staticfile directory

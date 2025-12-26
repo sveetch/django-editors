@@ -7,6 +7,7 @@
 @import "bootstrap/scss/functions";
 
 // Load every site settings
+@import "./tools/functions";
 @import "./settings/colors";
 @import "./settings/site";
 @import "./settings/icons";
@@ -64,6 +65,10 @@
 @import "bootstrap/scss/utilities/api";
 
 // @import "./generic/...";
-// @import "./elements/...";
+
+@import "./elements/html";
+@import "./elements/body";
+
 // @import "./objects/...";
+@import "./components/body_layout";
 // @import "./trumps/...";
