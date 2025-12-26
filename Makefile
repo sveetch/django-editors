@@ -196,14 +196,14 @@ migrations:
 	@echo ""
 	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Making application migrations <---$(FORMATRESET)\n"
 	@echo ""
-	$(PYTHON_BIN) $(DJANGO_MANAGE) makemigrations $(APPLICATION_NAME)
+	$(PYTHON_BIN) $(DJANGO_MANAGE) makemigrations $(APPLICATION_NAME) demo
 .PHONY: migrations
 
 check-migrations:
 	@echo ""
 	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Checking for pending backend model migrations <---$(FORMATRESET)\n"
 	@echo ""
-	$(PYTHON_BIN) $(DJANGO_MANAGE) makemigrations --check --dry-run -v 3 $(APPLICATION_NAME)
+	$(PYTHON_BIN) $(DJANGO_MANAGE) makemigrations --check --dry-run -v 3 $(APPLICATION_NAME) demo
 .PHONY: check-migrations
 
 migrate:
@@ -307,7 +307,7 @@ flake:
 	@echo ""
 	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Flake <---$(FORMATRESET)\n"
 	@echo ""
-	$(FLAKE_BIN) --statistics --show-source $(APPLICATION_NAME) tests
+	$(FLAKE_BIN) --statistics --show-source $(APPLICATION_NAME) sandbox/demo tests
 .PHONY: flake
 
 test:

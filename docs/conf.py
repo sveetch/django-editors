@@ -10,12 +10,21 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import datetime
 import os
 import sys
+from pathlib import Path
+
+
+# Add docs/ dir to sys.path so we can import possible internal extensions directory
+sys.path.append(str(Path(__file__).parent))
+
+
+# Add project dir to sys.path so Sphinx environment can load sandbox
+sys.path.append(str(Path(__file__).parent.parent))
 
 
 # Settings file required by Django
-sys.path.append(os.path.join(os.path.dirname(__file__), "."))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sandbox.settings.documentation")
 
 
@@ -30,8 +39,9 @@ from django_editors import __version__ as django_editors_version
 
 # -- Project information -----------------------------------------------------
 
+now = datetime.date.today()
 project = "django-editors"
-copyright = "2025, David Thenon"
+copyright = "2025-{}, David Thenon".format(now.year)
 author = "David Thenon"
 
 # The short X.Y version

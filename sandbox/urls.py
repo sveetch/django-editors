@@ -11,7 +11,7 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("django_editors.urls")),
-    
+    path("", include("sandbox.demo.urls")),
 ]
 
 # This is only needed when using runserver with settings "DEBUG" enabled

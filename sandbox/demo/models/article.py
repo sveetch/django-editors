@@ -3,26 +3,17 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
-from .blog import Blog
-
 
 class Article(models.Model):
     """
-    A simple article for a blog.
+    A simple article.
 
     Attributes:
-        blog (models.ForeignKey): Required related Blog object.
         title (models.CharField): Required title string.
         content (models.TextField): Optionnal text content.
         publish_start (models.DateTimeField): Required publication date determine
             when article will be available.
     """
-    blog = models.ForeignKey(
-        Blog,
-        verbose_name="Related blog",
-        on_delete=models.CASCADE
-    )
-
     title = models.CharField(
         _("title"),
         blank=False,
@@ -59,7 +50,6 @@ class Article(models.Model):
         Returns:
             string: An URL.
         """
-        return reverse("django_editors:article-detail", args=[
-            str(self.blog.id),
+        return reverse("demo:article-detail", args=[
             str(self.id)
         ])

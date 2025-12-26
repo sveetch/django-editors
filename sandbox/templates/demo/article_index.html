@@ -1,10 +1,9 @@
-{% extends "django_editors/base.html" %}
+{% extends "demo/base.html" %}
 {% load i18n %}
 
-
 {% block app_content %}{% spaceless %}
-<div class="blog-detail">
-    <h2>{{ blog_object.title }}</h2>
+<div class="article-index">
+    <h2>{% trans "Articles" %}</h2>
 
     <ul class="article-list">
     {% for article in object_list %}
@@ -16,6 +15,6 @@
     {% endfor %}
     </ul>
 
-    {% include "django_editors/pagination.html" %}
+    {% include "pagination.html" %}
 </div>
 {% endspaceless %}{% endblock app_content %}

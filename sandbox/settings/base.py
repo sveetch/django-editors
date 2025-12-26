@@ -159,11 +159,15 @@ LOGOUT_REDIRECT_URL = "/"
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
 
-
-
 """
 SPECIFIC BASE APPLICATIONS SETTINGS BELOW
 """
 from django_editors.settings import *  # noqa: E402,F401,F403
 
 INSTALLED_APPS.append("django_editors")
+
+
+"""
+Sandbox demonstration app
+"""
+INSTALLED_APPS.append("sandbox.demo")

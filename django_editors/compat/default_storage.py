@@ -3,7 +3,7 @@ The old way to get a storage object has been deprecated since ``Django 4.2`` and
 removed since ``Django 5.1``.
 
 This modules should safely get and initialize the default storage class for
-``Django>=3.8`` adn exposes it as a variable ``DEFAULT_STORAGE``.
+``Django>=3.8`` and exposes it as a variable ``DEFAULT_STORAGE``.
 """
 try:
     # Attempt to check for Django>=5.0 behavior
