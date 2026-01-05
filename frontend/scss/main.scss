@@ -64,11 +64,13 @@
 // Bootstrap utilities
 @import "bootstrap/scss/utilities/api";
 
-// @import "./generic/...";
-
 @import "./elements/html";
 @import "./elements/body";
 
+@import "./generic/type";
+
 // @import "./objects/...";
+
 @import "./components/body_layout";
+
 // @import "./trumps/...";

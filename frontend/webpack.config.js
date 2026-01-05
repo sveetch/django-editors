@@ -1,6 +1,7 @@
 const Path = require("path");
 const Webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     // Disable production-specific optimizations by default
@@ -15,6 +16,7 @@ module.exports = {
     entry: {
         "main": "./js/main.js",
         "bundle-tiptap": "./js/bundles/tiptap.js",
+        "bundle-suneditor": "./js/bundles/suneditor.js",
     },
 
     // Built JS files goes into sandbox staticfile directory
@@ -41,6 +43,10 @@ module.exports = {
                     },
                 }
             },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
+            }
         ]
     },
 
@@ -49,6 +55,9 @@ module.exports = {
         new BundleTracker({
             path: Path.join(__dirname, '../sandbox/static-sources'),
             filename: 'webpack-stats.json'
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'suneditor.min.css'
         })
     ],
 };

@@ -1,16 +1,148 @@
 {% extends "demo/base.html" %}
 {% load static %}
 
-{% block header-title %}{{ editor_name }} - {{ block.super }}{% endblock header-title %}
+{% block header-title %}{{ editor_definition.label }} - {{ block.super }}{% endblock header-title %}
+
+{% block header-resource-extra %}
+    {{ form.media }}
+{% endblock header-resource-extra %}
 
 {% block app_content %}{% spaceless %}
-<div class="editor-sample editor-{{ editor_name }} text-bg-light border border-top-0 h-100 p-4">
-    <h2 class="title">{{ editor_name }}</h2>
+<div class="editor-sample editor-{{ editor_definition.name }} h-100 p-2">
+    <h2 class="title mb-4">{{ editor_definition.label }}</h2>
 
-    <div class="editor-sample__integration"></div>
+    <form id="form-sample" action="" method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <fieldset>
+            <legend>As <code>&lt;textarea&gt;</code></legend>
+
+            <div class="text-bg-light border p-2 mb-4">
+                <label for="{{ form.textarea_empty.id_for_label }}" class="form-label">Empty</label>
+                {{ form.textarea_empty }}
+                {% if payload %}
+                    <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
+                        <pre><code>{{ payload.textarea_empty }}</code></pre>
+                    </div>
+                {% endif %}
+                {% if form.textarea_empty.errors %}
+                    <div class="mt-2">
+                        <ol>
+                        {% for error in form.textarea_empty.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="text-bg-light border p-2 mb-4">
+                <label for="{{ form.textarea_filled.id_for_label }}" class="form-label">Filled</label>
+                {{ form.textarea_filled }}
+                {% if payload %}
+                    <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
+                        <pre><code>{{ payload.textarea_filled }}</code></pre>
+                    </div>
+                {% endif %}
+                {% if form.textarea_filled.errors %}
+                    <div class="mt-2">
+                        <ol>
+                        {% for error in form.textarea_filled.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="text-bg-light border p-2 mb-4">
+                <label for="{{ form.textarea_initial.id_for_label }}" class="form-label">Initial</label>
+                {{ form.textarea_initial }}
+                {% if payload %}
+                    <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
+                        <pre><code>{{ payload.textarea_initial }}</code></pre>
+                    </div>
+                {% endif %}
+                {% if form.textarea_initial.errors %}
+                    <div class="mt-2">
+                        <ol>
+                        {% for error in form.textarea_initial.errors %}
+                            <li><strong>{{ error|escape }}</strong></li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <div class="p-2 text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <fieldset>
+        <legend>As <code>&lt;div&gt;</code></legend>
+
+        <div class="text-bg-light border p-2 mb-4">
+            <h3 class="h6">Empty div</h3>
+
+            <div id="editor-div-empty"></div>
+        </div>
+
+        <div class="text-bg-light border p-2 mb-4">
+            <h3 class="h6">Initial div</h3>
+
+            <div id="editor-div-initial"></div>
+        </div>
+
+    </fieldset>
+
+    <hr>
+
+    <fieldset>
+        <legend>Editor meta informations</legend>
+
+        <div class="mb-2">
+            <h3 class="h6">Editor definition</h3>
+            <div class="text-bg-light border p-2 mb-4">
+                {% for field in form %}
+                    <p>{{ field.id_for_label }} : {{ field.field.editor_metadata.component_name }}</p>
+                {% endfor %}
+                <pre>{{ editor_definition.as_json|force_escape }}</pre>
+            </div>
+        </div>
+
+        <div class="mb-2">
+            <h3 class="h6">Form medias</h3>
+            <div class="text-bg-light border p-2">
+                <pre>{{ form.media|force_escape }}</pre>
+            </div>
+        </div>
+
+    </fieldset>
 </div>
 {% endspaceless %}{% endblock app_content %}
 
 {% block body-javascript-extra %}
-    <script src="{% static "js/bundle-tiptap.js" %}"></script>
+    <script>
+        let form_sample = document.querySelector('#form-sample');
+
+        let editor_div_empty = new {{ editor_definition.component_name }}({
+            "source": document.querySelector('#editor-div-empty'),
+            "classNames": "form-control",
+            "form": form_sample,
+        });
+        editor_div_empty.provide();
+
+        let editor_div_initial = new {{ editor_definition.component_name }}({
+            "source": document.querySelector('#editor-div-initial'),
+            "initial": '<p>An <b>editor</b> initial value</p>',
+            "classNames": "form-control",
+            "form": form_sample,
+        });
+        editor_div_initial.provide();
+    </script>
 {% endblock body-javascript-extra %}
