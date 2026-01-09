@@ -22,6 +22,13 @@ def test_base(settings):
         "<label for=\"id_field\">Rich text:</label>"
         "<textarea name=\"field\" cols=\"40\" rows=\"10\" required id=\"id_field\">"
         "</textarea>"
+        "<script>"
+        "let id_field = new DjangoTipTap({"
+        " \"source\": document.querySelector('#id_field'),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_field.provide();"
+        " </script>"
         "</div>"
     )
 
@@ -43,6 +50,13 @@ def test_from_ruler(settings):
         "<label for=\"id_field\">Rich text:</label>"
         "<textarea name=\"field\" cols=\"40\" rows=\"10\" required id=\"id_field\">"
         "</textarea>"
+        "<script>"
+        "let id_field = new DjangoTipTap({"
+        " \"source\": document.querySelector('#id_field'),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_field.provide();"
+        " </script>"
         "</div>"
     )
 
@@ -68,6 +82,13 @@ def test_from_ruler(settings):
         "<label for=\"id_field\">Rich text:</label>"
         "<textarea name=\"field\" cols=\"40\" rows=\"10\" required id=\"id_field\">"
         "</textarea>"
+        "<script>"
+        "let id_field = new DjangoTipTap({"
+        " \"source\": document.querySelector('#id_field'),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_field.provide();"
+        " </script>"
         "</div>"
     )
 
@@ -93,6 +114,13 @@ def test_base_field(settings):
         "<label for=\"id_field\">Rich text:</label>"
         "<textarea name=\"field\" cols=\"40\" rows=\"10\" required id=\"id_field\">"
         "</textarea>"
+        "<script>"
+        "let id_field = new DjangoTipTap({"
+        " \"source\": document.querySelector('#id_field'),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_field.provide();"
+        " </script>"
         "</div>"
     )
 
@@ -115,6 +143,13 @@ def test_field_tiptap_default(settings):
         "<label for=\"id_field\">Rich text:</label>"
         "<textarea name=\"field\" cols=\"40\" rows=\"10\" required id=\"id_field\">"
         "</textarea>"
+        "<script>"
+        "let id_field = new DjangoTipTap({"
+        " \"source\": document.querySelector('#id_field'),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_field.provide();"
+        " </script>"
         "</div>"
     )
 
@@ -137,6 +172,13 @@ def test_field_tiptap_custom(settings):
         "<label for=\"id_field\">Rich text:</label>"
         "<textarea name=\"field\" cols=\"40\" rows=\"10\" required id=\"id_field\">"
         "</textarea>"
+        "<script>"
+        "let id_field = new DjangoTipTap({"
+        " \"source\": document.querySelector('#id_field'),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_field.provide();"
+        " </script>"
         "</div>"
     )
 

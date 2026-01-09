@@ -48,12 +48,6 @@ class DjangoBaseEditorWidget(forms.Textarea):
         context["widget"]["editor"] = self.editor_metadata
         context["widget"]["editor_init"] = self.embed_editor_init
 
-        ## Append HTML for CodeMirror Javascript config just below the textarea
-        #if self.embed_config:
-            #context["widget"].update({
-                #"script": self.codemirror_script(context["widget"]["attrs"]["id"]),
-            #})
-
         return context
 
 

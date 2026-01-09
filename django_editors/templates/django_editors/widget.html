@@ -2,7 +2,7 @@
 <script>
 let {{ widget.attrs.id|slugify }} = new {{ widget.editor.component_name }}({
     "source": document.querySelector('#{{ widget.attrs.id }}'),
-    "classNames": "form-control",
+    "classNames": "form-control"
 });
 {{ widget.attrs.id|slugify }}.provide();
 </script>{% endif %}
