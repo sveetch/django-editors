@@ -14,7 +14,7 @@ class DjangoTipTap extends DjangoBaseEditor {
     /**
      * Save editor content into source value
      */
-    synchronizeInput() {
+    synchronizeInput(e) {
         if (this.isFormControl(this.source) === true) {
             this.source.innerHTML = this.editor.getHTML();
         }
@@ -26,7 +26,7 @@ class DjangoTipTap extends DjangoBaseEditor {
      * @return {Editor} - The created editor object.
      */
     provide() {
-        this.container = this.prepare();
+        this.container = this.prepareContainer();
 
         this.editor = new Editor({
             element: this.container,
@@ -37,14 +37,14 @@ class DjangoTipTap extends DjangoBaseEditor {
         // Listen to editor content update to synchronize it in input value
         if (this.sync === true) {
             this.editor.on("update", ({editor}) => {
-                this.synchronizeInput();
+                this.synchronizeInput(editor);
             });
         }
 
         // Listen to to form submit to synchronize editor content in input value
         if (this.form) {
             this.form.addEventListener("submit", (e) => {
-                this.synchronizeInput();
+                this.synchronizeInput(e);
             });
         }
 

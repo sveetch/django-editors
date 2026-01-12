@@ -1,7 +1,7 @@
 const Path = require("path");
-const Webpack = require('webpack');
-const BundleTracker = require('webpack-bundle-tracker');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Webpack = require("webpack");
+const BundleTracker = require("webpack-bundle-tracker");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     // Disable production-specific optimizations by default
@@ -45,7 +45,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader']
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
             }
         ]
     },
@@ -53,11 +53,11 @@ module.exports = {
     // Enabled webpack plugins with their config
     plugins: [
         new BundleTracker({
-            path: Path.join(__dirname, '../sandbox/static-sources'),
-            filename: 'webpack-stats.json'
+            path: Path.join(__dirname, "../sandbox/static-sources"),
+            filename: "webpack-stats.json"
         }),
         new MiniCssExtractPlugin({
-            filename: 'suneditor.min.css'
+            filename: "suneditor.min.css"
         })
     ],
 };

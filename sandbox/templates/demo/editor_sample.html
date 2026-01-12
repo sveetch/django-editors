@@ -108,9 +108,6 @@
         <div class="mb-2">
             <h3 class="h6">Editor definition</h3>
             <div class="text-bg-light border p-2 mb-4">
-                {% for field in form %}
-                    <p>{{ field.id_for_label }} : {{ field.field.editor_metadata.component_name }}</p>
-                {% endfor %}
                 <pre>{{ editor_definition.as_json|force_escape }}</pre>
             </div>
         </div>

@@ -1,13 +1,15 @@
 /*
  * Django editor basic abstract
- *
- * TODO: - form + sync args may be too much. form is only used for synchronize on submit
- *         and using it with 'sync' argument would be useless.
  */
 
 
 /**
  * Editor container class
+ *
+ * Basically the input source is not automatically updated with editor content, either
+ * use argument 'form' or 'sync' to enable the prefered behavior, avoid to use them
+ * both, commonly the 'sync' argument is recommended choice.
+ *
  *
  * @param {HTMLElement} source - Source element for the editor, it must have an 'id'
  *                      attribute value.
@@ -18,14 +20,12 @@
  * @param {string} classNames - CSS class names to append onto container element.
  * @param {HTMLElement} form - Form element where the editor will edit an input. This
  *                      is currently only used to listen to 'submit' event from form.
- *                      DEPRECATED ? It would be useful but won't be easy to define
- *                      within a form widget template (do not know about its form?)
  *                      WARNING: If you mount editor on a required input, the browser
  *                      will block the event because of "Constraint Validation API" and
  *                      so either you remove the required constraint from input or you
  *                      apply the 'novalidate' attribute on the form.
  * @param {boolean} sync - Enable synchronizing editor content into input on editor
- *                  content updates.
+ *                  content changes (as when typing something).
  */
 export class DjangoBaseEditor {
     constructor(args) {
@@ -86,7 +86,7 @@ export class DjangoBaseEditor {
      *                         attribute 'data-source' both filled with an element
      *                         identifier referencing their brother.
      */
-    prepare() {
+    prepareContainer() {
         if(!this.source) {
             throw new Error("The argument 'source' can not be empty");
         }
@@ -140,8 +140,14 @@ export class DjangoBaseEditor {
      *
      * Commonly used to set input value according to editor content when submitting
      * form. This does nothing if source is not a form control.
+     *
+     * @param {Any} e - parameter argument that is commonly an Event object. However it
+     *              is not used in common editor implementation that prefer to directly
+     *              use the editor instance from 'this.editor'. Editor wrappers are
+     *              responsible to bind event on this method so finally it could be
+     *              any type.
      */
-    synchronizeInput() {}
+    synchronizeInput(e) {}
 
     /**
      * Initialize, create and apply editor object.
@@ -149,7 +155,7 @@ export class DjangoBaseEditor {
      * @return {Editor} - The created editor object.
      */
     provide() {
-        this.container = this.prepare();
+        this.container = this.prepareContainer();
 
         return this.editor;
     }

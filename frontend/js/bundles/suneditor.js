@@ -1,8 +1,11 @@
 /*
  * Editor class for SunEditor V3
  *
- * TODO: - How to save editor into input for submitting form ? Dig into its code.
- *       - What options ?
+ * TODO: - What options ?
+ *         - Tab key management option because on default Suneditor use four &nbsp;
+ *           when tab key is pressed. This is not expected tab key behavior (on default
+ *           indent on newline start or natural browser behavior to switch to another
+ *           element;
  *       - How to enable plugins ?
  *       - Search if MiniCssExtractPlugin can produce CSS into '../css/' instead of
  *         the 'js/' directory.
@@ -21,13 +24,15 @@ class DjangoSunEditor extends DjangoBaseEditor {
     /**
      * Save editor content into source value
      */
-    synchronizeInput() {}
+    synchronizeInput(e) {
+        this.editor.run("save");
+    }
 
     /**
-     * SunEditor does not need any preparation since it flex itself according to
-     * source element
+     * SunEditor does not need any preparation because it accords automatically to
+     * any source element
      */
-    prepare() {}
+    prepareContainer() {}
 
     /**
     * Initialize, create and apply editor object.
@@ -39,8 +44,21 @@ class DjangoSunEditor extends DjangoBaseEditor {
         this.container = this.source;
 
         this.editor = suneditor.create(this.container, {
-            // plugins: ["font", "image", "video"],
+            events: {
+                onChange: (e) => {
+                    if (this.sync === true) {
+                        this.synchronizeInput(e);
+                    }
+                }
+            },
         });
+
+        // Listen to to form submit to synchronize editor content in input value
+        if (this.form) {
+            this.form.addEventListener("submit", (e) => {
+                this.synchronizeInput(e);
+            });
+        }
 
         return this.editor;
     }
