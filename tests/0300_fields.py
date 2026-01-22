@@ -12,7 +12,7 @@ def test_base(settings):
     class DummyForm(forms.Form):
         field = forms.CharField(
             label="Rich text",
-            widget=DjangoBaseEditorWidget(editor_metadata=settings.EDITORS["TipTap"])
+            widget=DjangoBaseEditorWidget(editor=settings.EDITORS["TipTap"])
         )
 
     form = DummyForm()
@@ -104,7 +104,7 @@ def test_base_field(settings):
     class DummyForm(forms.Form):
         field = DjangoBaseEditorField(
             label="Rich text",
-            editor_metadata=settings.EDITORS["TipTap"],
+            editor=settings.EDITORS["TipTap"],
         )
 
     form = DummyForm()

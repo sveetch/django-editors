@@ -17,5 +17,9 @@ urlpatterns = [
         ArticleDetailView.as_view(),
         name="article-detail"
     ),
-    path("sample/<slug:editor_name>/", EditorSampleView.as_view(), name="editor-sample"),
+    path(
+        "sample/<slug:editor_name>/",
+        EditorSampleView.as_view(),
+        name="editor-sample"
+    ),
 ]

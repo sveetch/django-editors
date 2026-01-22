@@ -1,8 +1,6 @@
-from django import forms
-
 from django_editors.widgets import DjangoBaseEditorWidget
 from django_editors.utils.tests import html_element
-from django_editors.editors import RichEditorRuler
+from django_editors.editors import RichEditorDefinition
 
 
 def test_base(settings):
@@ -10,12 +8,12 @@ def test_base(settings):
     Build a TipTap widget in the raw way should render as expected.
     """
     widget = DjangoBaseEditorWidget(
-        editor_metadata=RichEditorRuler(
+        editor=RichEditorDefinition(
             name="Foobar",
             css=["css/bundle-foo.css"],
             js=["js/bundle-bar.js"],
         ),
-        embed_editor_init=False,
+        editor_init=False,
     )
 
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
@@ -31,7 +29,7 @@ def test_base(settings):
         "<script src=\"/static/js/bundle-bar.js\"></script>"
     )
 
-    widget.embed_editor_init = True
+    widget.editor_init = True
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -54,7 +52,7 @@ def test_widget_tiptap(settings):
     ruler = settings.EDITORS["TipTap"]
     widget = ruler.get_widget_object()
 
-    widget.embed_editor_init = False
+    widget.editor_init = False
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -62,7 +60,7 @@ def test_widget_tiptap(settings):
         "</textarea>"
     )
 
-    widget.embed_editor_init = True
+    widget.editor_init = True
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -89,7 +87,7 @@ def test_widget_suneditor(settings):
     ruler = settings.EDITORS["SunEditor"]
     widget = ruler.get_widget_object()
 
-    widget.embed_editor_init = False
+    widget.editor_init = False
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -97,7 +95,7 @@ def test_widget_suneditor(settings):
         "</textarea>"
     )
 
-    widget.embed_editor_init = True
+    widget.editor_init = True
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"

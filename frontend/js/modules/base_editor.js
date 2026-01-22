@@ -4,7 +4,9 @@
 
 
 /**
- * Editor container class
+ * Editor abstract class
+ *
+ * Abstraction to inherit to implement shared way to initialize an editor.
  *
  * Basically the input source is not automatically updated with editor content, either
  * use argument 'form' or 'sync' to enable the prefered behavior, avoid to use them

@@ -1,5 +1,7 @@
 /*
  * Editor class for TipTap V3
+ *
+ * TODO: - This is a very minimal implementation, it would need a lot more to be helpful
  */
 
 import { Editor } from "@tiptap/core"

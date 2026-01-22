@@ -12,11 +12,9 @@ from django_editors.utils.jsons import ExtendedJsonEncoder
 
 
 @dataclass
-class RichEditorRuler:
+class RichEditorDefinition:
     """
     Carry everything to build form widget and manage submitted content.
-
-    TODO: Rename 'ruler' to 'definition' everywhere
 
     NOTE: This should not contain anything related to a specific widget instance, it is
     more about a factory to set a widget onto a field, like initial or field specific
@@ -165,9 +163,9 @@ class RichEditorRuler:
         """
         Would render content saved from editor
 
-        NOTE: RichEditorRuler is not intended to be an instance of a widget but rather
-        a widget factory, so this would only work with 'content' given as argument of
-        this method or maybe move this into editor fields.
+        NOTE: RichEditorDefinition is not intended to be an instance of a widget but
+        rather a widget factory, so this would only work with 'content' given as
+        argument of this method or maybe move this into editor fields.
 
         .. Note::
             Commonly content is stored in HTML, but some editor may store them in

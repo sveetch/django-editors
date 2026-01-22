@@ -1,8 +1,6 @@
 import json
 
-from django import forms
-
-from django_editors.editors import RichEditorRuler
+from django_editors.editors import RichEditorDefinition
 from django_editors.formfields import DjangoBaseEditorField
 from django_editors.widgets import DjangoBaseEditorWidget
 
@@ -11,7 +9,7 @@ def test_base(settings):
     """
     Definition should correctly compute some attribute values and methods
     """
-    bizu = RichEditorRuler(
+    bizu = RichEditorDefinition(
         name="bizou",
         label="Bizu",
         widget=DjangoBaseEditorWidget,
@@ -30,7 +28,7 @@ def test_base(settings):
         "options": {}
     }
 
-    foobar = RichEditorRuler(
+    foobar = RichEditorDefinition(
         name="Foobar",
         css=["css/bundle-foo.css"],
         js=["js/bundle-bar.js"],
