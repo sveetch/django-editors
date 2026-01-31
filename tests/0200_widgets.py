@@ -13,13 +13,14 @@ def test_base(settings):
             css=["css/bundle-foo.css"],
             js=["js/bundle-bar.js"],
         ),
+        attrs={"foo": "bar"},
         editor_init=False,
     )
 
+    # On default, just the widget input
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
-
     assert html_element(input_render) == html_element(
-        "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
+        "<textarea id=\"id_text\" name=\"text\" foo=\"bar\" cols=\"40\" rows=\"10\">"
         "&lt;p&gt;A &lt;b&gt;rich&lt;/b&gt; content&lt;/p&gt;"
         "</textarea>"
     )
@@ -29,7 +30,20 @@ def test_base(settings):
         "<script src=\"/static/js/bundle-bar.js\"></script>"
     )
 
-    widget.editor_init = True
+
+def test_base_init(settings):
+    """
+    Build a widget with JavaScript initialization for editor.
+    """
+    widget = DjangoBaseEditorWidget(
+        editor=RichEditorDefinition(
+            name="Foobar",
+            css=["css/bundle-foo.css"],
+            js=["js/bundle-bar.js"],
+        ),
+        editor_init=True,
+    )
+
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -37,7 +51,54 @@ def test_base(settings):
         "</textarea>"
         "<script>"
         "let id_text = new DjangoFoobar({"
-        " \"source\": document.querySelector('#id_text'),"
+        " \"source\": document.querySelector(\"#id_text\"),"
+        " \"classNames\": \"form-control\""
+        " });"
+        " id_text.provide();"
+        " </script>"
+    )
+
+
+def test_base_editor_options(settings):
+    """
+    Build a widget with JavaScript initialization for editor.
+    """
+    # Without init
+    widget = DjangoBaseEditorWidget(
+        editor=RichEditorDefinition(
+            name="Foobar",
+            css=["css/bundle-foo.css"],
+            js=["js/bundle-bar.js"],
+        ),
+        editor_init=False,
+        editor_options={"dummy": ["pip", "pop"], "ping": None},
+    )
+    input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
+    assert html_element(input_render) == html_element(
+        "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
+        "&lt;p&gt;A &lt;b&gt;rich&lt;/b&gt; content&lt;/p&gt;"
+        "</textarea>"
+    )
+
+    # With init
+    widget = DjangoBaseEditorWidget(
+        editor=RichEditorDefinition(
+            name="Foobar",
+            css=["css/bundle-foo.css"],
+            js=["js/bundle-bar.js"],
+        ),
+        editor_init=True,
+        editor_options={"dummy": ["pip", "pop"], "ping": None},
+    )
+    input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
+    assert html_element(input_render) == html_element(
+        "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
+        "&lt;p&gt;A &lt;b&gt;rich&lt;/b&gt; content&lt;/p&gt;"
+        "</textarea>"
+        "<script>"
+        "let id_text = new DjangoFoobar({"
+        " \"source\": document.querySelector(\"#id_text\"),"
+        " \"editor_options\": {\"dummy\": [\"pip\", \"pop\"], \"ping\": null},"
         " \"classNames\": \"form-control\""
         " });"
         " id_text.provide();"
@@ -49,10 +110,9 @@ def test_widget_tiptap(settings):
     """
     TipTap widget render and media assets should be as expected.
     """
-    ruler = settings.EDITORS["TipTap"]
-    widget = ruler.get_widget_object()
+    definition = settings.EDITORS["TipTap"]
+    widget = definition.get_widget_object(editor_init=False)
 
-    widget.editor_init = False
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -60,7 +120,10 @@ def test_widget_tiptap(settings):
         "</textarea>"
     )
 
-    widget.editor_init = True
+    widget = definition.get_widget_object(
+        editor_init=True,
+        editor_options={"dummy": ["pip", "pop"], "ping": None},
+    )
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -68,7 +131,8 @@ def test_widget_tiptap(settings):
         "</textarea>"
         "<script>"
         "let id_text = new DjangoTipTap({"
-        " \"source\": document.querySelector('#id_text'),"
+        " \"source\": document.querySelector(\"#id_text\"),"
+        " \"editor_options\": {\"dummy\": [\"pip\", \"pop\"], \"ping\": null},"
         " \"classNames\": \"form-control\""
         " });"
         " id_text.provide();"
@@ -84,10 +148,9 @@ def test_widget_suneditor(settings):
     """
     SunEditor widget render and media assets should be as expected.
     """
-    ruler = settings.EDITORS["SunEditor"]
-    widget = ruler.get_widget_object()
+    definition = settings.EDITORS["SunEditor"]
+    widget = definition.get_widget_object(editor_init=False)
 
-    widget.editor_init = False
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -95,7 +158,7 @@ def test_widget_suneditor(settings):
         "</textarea>"
     )
 
-    widget.editor_init = True
+    widget = definition.get_widget_object(editor_init=True)
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
@@ -103,7 +166,7 @@ def test_widget_suneditor(settings):
         "</textarea>"
         "<script>"
         "let id_text = new DjangoSunEditor({"
-        " \"source\": document.querySelector('#id_text'),"
+        " \"source\": document.querySelector(\"#id_text\"),"
         " \"classNames\": \"form-control\""
         " });"
         " id_text.provide();"

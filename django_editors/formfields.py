@@ -6,28 +6,52 @@ class DjangoBaseEditorField(forms.CharField):
     """
     A CharField that is able to find its widget from given editor definition.
 
+    Attributes:
+        editor (RichEditorDefinition): Required Rich editor definition instance. Either
+            your concrete base editor class define this attribute or it will have to
+            give a value from argument.
+        editor_init (boolean): If true the widget render will include the
+            Javascript code to initialize editor (just below the input in default
+            widget template). If disabled the editor component won't be automatically
+            initialized and developer will have to do it himself.
+        editor_options (dict): The options to pass to Javascript editor constructor.
+            This will be converted to JSON if not empty else widget context will have
+            an empty string.
+        wrapper_options (dict): The options to pass to editor wrapper (commonly a
+            concrete implementation of ``modules.base_editor.DjangoBaseEditor`` (from
+            frontend JavaScript). This will be converted to JSON if not empty else
+            widget context will have an empty string.
+
     Keyword Arguments:
-        editor (RichEditorDefinition): Rich editor definition instance. Although
-            it is a keyword argument, this is a required argument however inheriter
-            can define an attribute ``editor`` to avoid giving this argument.
-        editor_options (dict):
-        editor_init (boolean): TODO: Receive, pop and pass it to widget
+        editor (RichEditorDefinition): To overwrite the homonym attribute value.
+        editor_init (boolean): To overwrite the homonym attribute value.
+        editor_options (dict): To overwrite the homonym attribute value.
+        wrapper_options (dict): To overwrite the homonym attribute value.
     """
     def __init__(self, *args, **kwargs):
-        if not hasattr(self, "editor"):
-            self.editor = kwargs.pop("editor", None)
+        self.editor = kwargs.pop("editor", getattr(self, "editor", None))
+        self.editor_init = kwargs.pop("editor_init", getattr(self, "editor_init", True))
+        self.editor_options = kwargs.pop(
+            "editor_options",
+            getattr(self, "editor_options", {})
+        )
+        self.wrapper_options = kwargs.pop(
+            "wrapper_options",
+            getattr(self, "wrapper_options", {})
+        )
 
         if not self.editor:
             raise ValueError(
                 "DjangoBaseEditorField requires 'editor' to be set."
             )
 
-        if not hasattr(self, "editor_options"):
-            self.editor_options = kwargs.pop("editor_options", {})
-
         # Add widget to the field
         kwargs.update({
-            "widget": self.editor.get_widget_object(**self.editor_options)
+            "widget": self.editor.get_widget_object(
+                editor_options=self.editor_options,
+                editor_init=self.editor_init,
+                wrapper_options=self.wrapper_options,
+            )
         })
 
         super().__init__(*args, **kwargs)
@@ -41,8 +65,6 @@ class TipTapField(DjangoBaseEditorField):
         editor (RichEditorDefinition): Rich editor definition instance. This will
             overwrite the default SunEditor editor definition. Default value use the
             TipTap definition from ``settings.EDITORS``
-        editor_options (dict):
-        editor_init (boolean):
     """
     def __init__(self, *args, **kwargs):
         self.editor = kwargs.pop(
@@ -61,8 +83,6 @@ class SunEditorField(DjangoBaseEditorField):
         editor (RichEditorDefinition): Rich editor definition instance. This will
             overwrite the default SunEditor editor definition. Default value use the
             SunEditor definition from ``settings.EDITORS``
-        editor_options (dict):
-        editor_init (boolean):
     """
     def __init__(self, *args, **kwargs):
         self.editor = kwargs.pop(

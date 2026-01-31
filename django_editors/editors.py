@@ -1,3 +1,6 @@
+"""
+TODO: Module should be renamed as ``definitions.py``
+"""
 import json
 from copy import deepcopy
 from dataclasses import (
@@ -21,8 +24,10 @@ class RichEditorDefinition:
     options that should be given on the widget itself.
 
     Arguments:
-        name (string): Key name used in registry and internals. TODO: This should be a
-            valid Python identifier because it can be used to compute object names.
+        name (string): Key name used in registry and internals.
+            .. Todo::
+                TODO: This should be a valid Python identifier because it can be used
+                to compute object names. So we need to validate this value.
 
     Keyword Arguments:
         label (string): Label name to display (rarely for final user). Will be set
@@ -65,18 +70,6 @@ class RichEditorDefinition:
         if not self.component_name:
             self.component_name = "Django{name}".format(name=self.name)
 
-    def widget_configuration(self, **kwargs):
-        """
-        Returns default widget options merged with possible given custom options.
-
-        Returns:
-            dict:
-        """
-        options = deepcopy(self.options)
-        options.update(kwargs)
-
-        return options
-
     def get_assets(self):
         """
         This should provide all editor assets path to include in document to initialize
@@ -89,6 +82,26 @@ class RichEditorDefinition:
             "css": {"all": self.css},
             "js": self.js,
         }
+
+    def widget_configuration(self, **kwargs):
+        """
+        Returns default widget options merged with possible given custom options.
+
+        Returns:
+            dict:
+        """
+        options = deepcopy(self.options)
+
+        if kwargs.get("editor_init") is True or kwargs.get("editor_init") is False:
+            options["editor_init"] = kwargs.get("editor_init")
+
+        if kwargs.get("editor_options"):
+            options["editor_options"] = kwargs.get("editor_options")
+
+        if kwargs.get("wrapper_options"):
+            options["wrapper_options"] = kwargs.get("wrapper_options")
+
+        return options
 
     def get_widget_class(self):
         """
@@ -116,8 +129,9 @@ class RichEditorDefinition:
             django.forms.widgets.Widget: Instance of the editor widget class.
         """
         config = self.widget_configuration(**kwargs)
+
         if config:
-            return self.get_widget_class()(config)
+            return self.get_widget_class()(**config)
 
         return self.get_widget_class()()
 
@@ -140,7 +154,7 @@ class RichEditorDefinition:
 
     def as_dict(self):
         """
-        Convert dataclasse attribute values to a dict.
+        Convert dataclass attribute values to a dict.
 
         Returns:
             dict: A dict containing all the dataclass attributes.
@@ -152,7 +166,7 @@ class RichEditorDefinition:
 
     def as_json(self, indent=4):
         """
-        Convert dataclasse attribute values to a dict.
+        Convert dataclass attribute values to a dict.
 
         Returns:
             string: A JSON containing all the dataclass attributes.

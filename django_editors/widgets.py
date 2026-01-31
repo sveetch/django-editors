@@ -1,3 +1,5 @@
+import json
+
 from django import forms
 from django.conf import settings
 
@@ -6,27 +8,46 @@ class DjangoBaseEditorWidget(forms.Textarea):
     """
     Base form widget for an editor.
 
-    Keyword Arguments:
-        editor (RichEditorDefinition): Rich editor definition instance. Although
-            it is a keyword argument, this is a required argument however inheriter
-            can define an attribute ``editor`` to avoid giving this argument.
+    Attributes:
+        editor (RichEditorDefinition): Required Rich editor definition instance. Either
+            your concrete base editor class define this attribute or it will have to
+            give a value from argument.
         editor_init (boolean): If true the widget render will include the
-            editor Javascript component init just below the input. Else the editor
-            component won't be automatically initialized and developer will have to do
-            it himself.
+            Javascript code to initialize editor (just below the input in default
+            widget template). If disabled the editor component won't be automatically
+            initialized and developer will have to do it himself.
+        editor_options (dict): The options to pass to Javascript editor constructor.
+            This will be converted to JSON if not empty else widget context will have
+            an empty string.
+        wrapper_options (dict): The options to pass to editor wrapper (commonly a
+            concrete implementation of ``modules.base_editor.DjangoBaseEditor`` (from
+            frontend JavaScript). This will be converted to JSON if not empty else
+            widget context will have an empty string.
+
+    Keyword Arguments:
+        editor (RichEditorDefinition): To overwrite the homonym attribute value.
+        editor_init (boolean): To overwrite the homonym attribute value.
+        editor_options (dict): To overwrite the homonym attribute value.
+        wrapper_options (dict): To overwrite the homonym attribute value.
     """
     template_name = "django_editors/widget.html"
 
     def __init__(self, *args, **kwargs):
-        if not hasattr(self, "editor"):
-            self.editor = kwargs.pop("editor", None)
+        self.editor = kwargs.pop("editor", getattr(self, "editor", None))
+        self.editor_init = kwargs.pop("editor_init", getattr(self, "editor_init", True))
+        self.editor_options = kwargs.pop(
+            "editor_options",
+            getattr(self, "editor_options", {})
+        )
+        self.wrapper_options = kwargs.pop(
+            "wrapper_options",
+            getattr(self, "wrapper_options", {})
+        )
 
         if not self.editor:
             raise ValueError(
                 "DjangoBaseEditorWidget requires 'editor' to be set."
             )
-
-        self.editor_init = kwargs.pop("editor_init", True)
 
         super().__init__(*args, **kwargs)
 
@@ -44,6 +65,12 @@ class DjangoBaseEditorWidget(forms.Textarea):
 
         context["widget"]["editor"] = self.editor
         context["widget"]["editor_init"] = self.editor_init
+        context["widget"]["editor_options"] = (
+            json.dumps(self.editor_options) if self.editor_options else ""
+        )
+        context["widget"]["wrapper_options"] = (
+            json.dumps(self.wrapper_options) if self.wrapper_options else ""
+        )
 
         return context
 

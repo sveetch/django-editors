@@ -3,6 +3,10 @@
 Available editors
 =================
 
+The application provides some JavaScript bundles where some editors have been
+implemented.
+
+
 TipTap
 ******
 

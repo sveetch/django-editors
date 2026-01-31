@@ -19,6 +19,10 @@
  *                 content value. This is not recommended when source is a form control
  *                 because whatever you input, after a submit the initial value will
  *                 overwrite it in the form control.
+ * @param {object} options - Options to give to editor during initialization. Passing
+ *                 options to editor is left to concrete 'DjangoBaseEditor'
+ *                 implementation in 'provide()' method. This is an empty object on
+ *                 default.
  * @param {string} classNames - CSS class names to append onto container element.
  * @param {HTMLElement} form - Form element where the editor will edit an input. This
  *                      is currently only used to listen to 'submit' event from form.
@@ -36,6 +40,7 @@ export class DjangoBaseEditor {
         this.editor = null;
         this.form = args.form;
         this.source = args.source;
+        this.options = args.options || {};
         this.initial = args.initial || "";
         this.classNames = args.classNames || "";
         this.sync = args.sync || false;
@@ -153,6 +158,8 @@ export class DjangoBaseEditor {
 
     /**
      * Initialize, create and apply editor object.
+     *
+     * This is where to implement editor initialization.
      *
      * @return {Editor} - The created editor object.
      */

@@ -9,117 +9,171 @@
 
 {% block app_content %}{% spaceless %}
 <div class="editor-sample editor-{{ editor_definition.name }} h-100 p-2">
-    <h2 class="title mb-4">{{ editor_definition.label }}</h2>
+    <div class="container">
+        <h2 class="title mb-4">{{ editor_definition.label }}</h2>
 
-    <form id="form-sample" action="" method="post" novalidate>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
+        {% if editor_definition.name == "SunEditor" %}
+            <div class="row mb-1">
+                <figure class="col">
+                    <blockquote class="blockquote">
+                        <p>A lightweight and powerful WYSIWYG editor in vanilla JavaScript. No dependencies.</p>
+                    </blockquote>
+
+                    <figcaption class="blockquote-footer">
+                        <a href="https://github.com/JiHong88/suneditor" target="_blank">Repository</a>
+                    </figcaption>
+                </figure>
+
+                <div class="col">
+                    <p>
+                        SundEditor is a modern rich editor with a CKEditor alike
+                        experience. It is a standalone editor which does not require
+                        any external dependencies while perfectly able to work with
+                        vanilla JavaScript, React, etc..
+                    </p>
+                    <p>
+                        We included the version 3 (currently in beta stage).
+                    </p>
+                </div>
+            </div>
+        {% elif editor_definition.name == "TipTap" %}
+            <div class="row mb-1">
+                <figure class="col">
+                    <blockquote class="blockquote">
+                        <p>The headless rich text editor framework for web artisans.</p>
+                    </blockquote>
+
+                    <figcaption class="blockquote-footer">
+                        <a href="https://github.com/ueberdosis/tiptap" target="_blank">Repository</a>
+                    </figcaption>
+                </figure>
+
+                <div class="col">
+                    <p>
+                        TipTap is a modern rich editor based on ProseMirror. Extremely powerful
+                        and flexible but need some work to be properly implemented for a useful
+                        user experience.
+                    </p>
+                    <p>
+                        We included the version 3.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+
+        <form id="form-sample" action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <fieldset>
+                <legend>As <code>&lt;textarea&gt;</code></legend>
+
+                <div class="text-bg-light border p-2 mb-4">
+                    <label for="{{ form.textarea_empty.id_for_label }}" class="form-label">Empty</label>
+                    <p class="form-text mb-0"><small>When the input value is empty and without initial value.</small></p>
+                    {{ form.textarea_empty }}
+                    {% if payload %}
+                        <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
+                            <pre><code>{{ payload.textarea_empty }}</code></pre>
+                        </div>
+                    {% endif %}
+                    {% if form.textarea_empty.errors %}
+                        <div class="mt-2">
+                            <ol>
+                            {% for error in form.textarea_empty.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="text-bg-light border p-2 mb-4">
+                    <label for="{{ form.textarea_filled.id_for_label }}" class="form-label">Input initial</label>
+                    <p class="form-text mb-0"><small>When the input already has a filled value.</small></p>
+                    {{ form.textarea_filled }}
+                    {% if payload %}
+                        <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
+                            <pre><code>{{ payload.textarea_filled }}</code></pre>
+                        </div>
+                    {% endif %}
+                    {% if form.textarea_filled.errors %}
+                        <div class="mt-2">
+                            <ol>
+                            {% for error in form.textarea_filled.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="text-bg-light border p-2 mb-4">
+                    <label for="{{ form.textarea_initial.id_for_label }}" class="form-label">Editor initial</label>
+                    <p class="form-text mb-0"><small>For when the editor provide a method to append an initial value over the input value.</small></p>
+                    {{ form.textarea_initial }}
+                    {% if payload %}
+                        <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
+                            <pre><code>{{ payload.textarea_initial }}</code></pre>
+                        </div>
+                    {% endif %}
+                    {% if form.textarea_initial.errors %}
+                        <div class="mt-2">
+                            <ol>
+                            {% for error in form.textarea_initial.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
+                            {% endfor %}
+                            </ol>
+                        </div>
+                    {% endif %}
+                </div>
+            </fieldset>
+
+            <div class="p-2 text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        <hr>
 
         <fieldset>
-            <legend>As <code>&lt;textarea&gt;</code></legend>
+            <legend>As <code>&lt;div&gt;</code></legend>
 
             <div class="text-bg-light border p-2 mb-4">
-                <label for="{{ form.textarea_empty.id_for_label }}" class="form-label">Empty</label>
-                {{ form.textarea_empty }}
-                {% if payload %}
-                    <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
-                        <pre><code>{{ payload.textarea_empty }}</code></pre>
-                    </div>
-                {% endif %}
-                {% if form.textarea_empty.errors %}
-                    <div class="mt-2">
-                        <ol>
-                        {% for error in form.textarea_empty.errors %}
-                            <li><strong>{{ error|escape }}</strong></li>
-                        {% endfor %}
-                        </ol>
-                    </div>
-                {% endif %}
+                <h3 class="h6">Empty div</h3>
+
+                <div id="editor-div-empty"></div>
             </div>
 
             <div class="text-bg-light border p-2 mb-4">
-                <label for="{{ form.textarea_filled.id_for_label }}" class="form-label">Filled</label>
-                {{ form.textarea_filled }}
-                {% if payload %}
-                    <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
-                        <pre><code>{{ payload.textarea_filled }}</code></pre>
-                    </div>
-                {% endif %}
-                {% if form.textarea_filled.errors %}
-                    <div class="mt-2">
-                        <ol>
-                        {% for error in form.textarea_filled.errors %}
-                            <li><strong>{{ error|escape }}</strong></li>
-                        {% endfor %}
-                        </ol>
-                    </div>
-                {% endif %}
+                <h3 class="h6">Initial div</h3>
+
+                <div id="editor-div-initial"></div>
             </div>
 
-            <div class="text-bg-light border p-2 mb-4">
-                <label for="{{ form.textarea_initial.id_for_label }}" class="form-label">Initial</label>
-                {{ form.textarea_initial }}
-                {% if payload %}
-                    <div class="mt-2 p-2 border rounded bg-white text-body-secondary">
-                        <pre><code>{{ payload.textarea_initial }}</code></pre>
-                    </div>
-                {% endif %}
-                {% if form.textarea_initial.errors %}
-                    <div class="mt-2">
-                        <ol>
-                        {% for error in form.textarea_initial.errors %}
-                            <li><strong>{{ error|escape }}</strong></li>
-                        {% endfor %}
-                        </ol>
-                    </div>
-                {% endif %}
-            </div>
         </fieldset>
 
-        <div class="p-2 text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
+        <hr>
 
-    <hr>
+        <fieldset>
+            <legend>Editor meta informations</legend>
 
-    <fieldset>
-        <legend>As <code>&lt;div&gt;</code></legend>
-
-        <div class="text-bg-light border p-2 mb-4">
-            <h3 class="h6">Empty div</h3>
-
-            <div id="editor-div-empty"></div>
-        </div>
-
-        <div class="text-bg-light border p-2 mb-4">
-            <h3 class="h6">Initial div</h3>
-
-            <div id="editor-div-initial"></div>
-        </div>
-
-    </fieldset>
-
-    <hr>
-
-    <fieldset>
-        <legend>Editor meta informations</legend>
-
-        <div class="mb-2">
-            <h3 class="h6">Editor definition</h3>
-            <div class="text-bg-light border p-2 mb-4">
-                <pre>{{ editor_definition.as_json|force_escape }}</pre>
+            <div class="mb-2">
+                <h3 class="h6">Editor definition</h3>
+                <div class="text-bg-light border p-2 mb-4">
+                    <pre>{{ editor_definition.as_json|force_escape }}</pre>
+                </div>
             </div>
-        </div>
 
-        <div class="mb-2">
-            <h3 class="h6">Form medias</h3>
-            <div class="text-bg-light border p-2">
-                <pre>{{ form.media|force_escape }}</pre>
+            <div class="mb-2">
+                <h3 class="h6">Form medias</h3>
+                <div class="text-bg-light border p-2">
+                    <pre>{{ form.media|force_escape }}</pre>
+                </div>
             </div>
-        </div>
 
-    </fieldset>
+        </fieldset>
+    </div>
 </div>
 {% endspaceless %}{% endblock app_content %}
 
