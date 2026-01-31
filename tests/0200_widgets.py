@@ -1,6 +1,6 @@
 from django_editors.widgets import DjangoBaseEditorWidget
 from django_editors.utils.tests import html_element
-from django_editors.editors import RichEditorDefinition
+from django_editors.definitions import RichEditorDefinition
 
 
 def test_base(settings):

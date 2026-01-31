@@ -6,7 +6,7 @@ These are the default settings you can override in your own project settings
 right after the line which load the default app settings.
 
 """
-from .editors import RichEditorDefinition
+from .definitions import RichEditorDefinition
 
 
 EDITORS = {

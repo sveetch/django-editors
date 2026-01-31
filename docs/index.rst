@@ -8,6 +8,7 @@ Contents
    :maxdepth: 2
 
    install.rst
+   editors.rst
    references/index.rst
 
 

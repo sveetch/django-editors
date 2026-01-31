@@ -23,17 +23,21 @@ feature you could expect from an editor. You may find a lot of guides and exampl
 make your own improved bundle easily if you are working with React. Else you will need
 some work achieve it yourself with different environment like VanillaJS, Vue, etc..
 
+Its definition is registred with name ``TipTap`` in ``settings.EDITORS``.
 
-SunEditor
-*********
+SunEditor 3
+***********
 
 https://github.com/JiHong88/suneditor/tree/develop
 
-SunEditor is an editor which looks like "modernized CKEditor 4". It got the same look
-and feel UI and technical behaviors but with an improved programmatic interface.
+SunEditor is an editor which looks like "modernized CKEditor 4". It got the same look,
+the same UI feeling and technical behaviors but with an improved programmatic
+interface.
 
 This is actually experimental since we are using the SunEditor V3 which is in beta
 stage (in 'develop' branch).
 
 Because it includes CSS stylesheets in its JavaScript component we need Webpack plugins
 'css-loader' and 'MiniCssExtractPlugin' to build it.
+
+Its definition is registred with name ``SunEditor`` in ``settings.EDITORS``.

@@ -1,6 +1,3 @@
-"""
-TODO: Module should be renamed as ``definitions.py``
-"""
 import json
 from copy import deepcopy
 from dataclasses import (
@@ -19,15 +16,12 @@ class RichEditorDefinition:
     """
     Carry everything to build form widget and manage submitted content.
 
-    NOTE: This should not contain anything related to a specific widget instance, it is
-    more about a factory to set a widget onto a field, like initial or field specific
-    options that should be given on the widget itself.
+    .. Todo::
+        ``name`` value must be a valid Python identifier because it can be used
+        to compute object names. So we need to validate this value.
 
     Arguments:
         name (string): Key name used in registry and internals.
-            .. Todo::
-                TODO: This should be a valid Python identifier because it can be used
-                to compute object names. So we need to validate this value.
 
     Keyword Arguments:
         label (string): Label name to display (rarely for final user). Will be set

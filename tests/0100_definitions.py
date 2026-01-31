@@ -1,6 +1,6 @@
 import json
 
-from django_editors.editors import RichEditorDefinition
+from django_editors.definitions import RichEditorDefinition
 from django_editors.formfields import DjangoBaseEditorField
 from django_editors.widgets import DjangoBaseEditorWidget
 
