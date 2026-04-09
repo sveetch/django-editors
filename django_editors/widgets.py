@@ -12,7 +12,7 @@ class DjangoBaseEditorWidget(forms.Textarea):
         editor (RichEditorDefinition): Required Rich editor definition instance. Either
             your concrete base editor class define this attribute or it will have to
             give a value from argument.
-        editor_init (boolean): If true the widget render will include the
+        init_editor (boolean): If true the widget render will include the
             Javascript code to initialize editor (just below the input in default
             widget template). If disabled the editor component won't be automatically
             initialized and developer will have to do it himself.
@@ -26,7 +26,7 @@ class DjangoBaseEditorWidget(forms.Textarea):
 
     Keyword Arguments:
         editor (RichEditorDefinition): To overwrite the homonym attribute value.
-        editor_init (boolean): To overwrite the homonym attribute value.
+        init_editor (boolean): To overwrite the homonym attribute value.
         editor_options (dict): To overwrite the homonym attribute value.
         wrapper_options (dict): To overwrite the homonym attribute value.
     """
@@ -34,7 +34,15 @@ class DjangoBaseEditorWidget(forms.Textarea):
 
     def __init__(self, *args, **kwargs):
         self.editor = kwargs.pop("editor", getattr(self, "editor", None))
-        self.editor_init = kwargs.pop("editor_init", getattr(self, "editor_init", True))
+        self.init_editor = kwargs.pop("init_editor", getattr(self, "init_editor", True))
+
+        # Push distinct "widget_options" as the natural widget options (as kwargs)
+        widget_options = kwargs.pop(
+            "widget_options",
+            getattr(self, "widget_options", {})
+        )
+        kwargs.update(widget_options)
+
         self.editor_options = kwargs.pop(
             "editor_options",
             getattr(self, "editor_options", {})
@@ -58,13 +66,13 @@ class DjangoBaseEditorWidget(forms.Textarea):
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
 
-        # Widget allways need an id to be able to set CodeMirror Javascript
-        # config
+        # Ensure widget allways have an id (for some case with Django form binding)
         if "id" not in context["widget"]["attrs"]:
             context["widget"]["attrs"]["id"] = "id_{}".format(name)
 
+        # Fill widget context so it can be rendered using all of its options
         context["widget"]["editor"] = self.editor
-        context["widget"]["editor_init"] = self.editor_init
+        context["widget"]["init_editor"] = self.init_editor
         context["widget"]["editor_options"] = (
             json.dumps(self.editor_options) if self.editor_options else ""
         )
@@ -100,12 +108,30 @@ class SunEditorWidget(DjangoBaseEditorWidget):
     Keyword Arguments:
         editor (RichEditorDefinition): Rich editor definition instance. This will
             overwrite the default SunEditor editor definition. Default value use the
-            TipTap definition from ``settings.EDITORS``
+            SunEditor definition from ``settings.EDITORS``
     """
     def __init__(self, *args, **kwargs):
         self.editor = kwargs.pop(
             "editor",
             settings.EDITORS["SunEditor"]
+        )
+
+        super().__init__(*args, **kwargs)
+
+
+class CodeMirror6Widget(DjangoBaseEditorWidget):
+    """
+    CodeMirror 6 form widget.
+
+    Keyword Arguments:
+        editor (RichEditorDefinition): Rich editor definition instance. This will
+            overwrite the default CodeMirror editor definition. Default value use the
+            CodeMirror6 definition from ``settings.EDITORS``
+    """
+    def __init__(self, *args, **kwargs):
+        self.editor = kwargs.pop(
+            "editor",
+            settings.EDITORS["CodeMirror6"]
         )
 
         super().__init__(*args, **kwargs)

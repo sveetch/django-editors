@@ -9,6 +9,7 @@
  *       - How to enable plugins ?
  *       - Search if MiniCssExtractPlugin can produce CSS into '../css/' instead of
  *         the 'js/' directory.
+ *       - Upgrade to final v3 release
  */
 
 import "suneditor/css"; // Editor UI
@@ -40,20 +41,30 @@ class DjangoSunEditor extends DjangoBaseEditor {
     * @return {Editor} - The created editor object.
     */
     provide() {
-        // No need of preparing source
+        // No need of preparing source because SunEditor will make all the job to
+        // replace input
         this.container = this.source;
 
-        this.editor = suneditor.create(this.container, {
-            events: {
-                onChange: (e) => {
-                    if (this.sync === true) {
-                        this.synchronizeInput(e);
+        const editor_options = {
+            ...{
+                events: {
+                    onChange: (e) => {
+                        console.log("Sundeditor onChange:sync:", this.sync);
+                        if (this.sync === true) {
+                            this.synchronizeInput(e);
+                        }
                     }
-                }
+                },
             },
-        });
+            ...this.options
+        };
 
-        // Listen to to form submit to synchronize editor content in input value
+        this.editor = suneditor.create(
+            this.container,
+            editor_options
+        );
+
+        // Listen to form submit to synchronize editor content in input value
         if (this.form) {
             this.form.addEventListener("submit", (e) => {
                 this.synchronizeInput(e);

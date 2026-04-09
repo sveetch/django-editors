@@ -15,7 +15,7 @@ def test_with_abstract_widget(settings):
             label="Rich text",
             widget=DjangoBaseEditorWidget(
                 editor=settings.EDITORS["TipTap"],
-                editor_init=False,
+                init_editor=False,
             )
         )
 
@@ -34,7 +34,7 @@ def test_with_abstract_widget(settings):
             label="Rich text",
             widget=DjangoBaseEditorWidget(
                 editor=settings.EDITORS["TipTap"],
-                editor_init=True,
+                init_editor=True,
             )
         )
 
@@ -64,7 +64,7 @@ def test_with_concrete_widget(settings):
     class DummyForm(forms.Form):
         field = forms.CharField(
             label="Rich text",
-            widget=settings.EDITORS["TipTap"].get_widget_object(editor_init=False)
+            widget=settings.EDITORS["TipTap"].get_widget_object(init_editor=False)
         )
 
     form = DummyForm()
@@ -85,7 +85,7 @@ def test_with_concrete_widget(settings):
     class DummyForm(forms.Form):
         field = forms.CharField(
             label="Rich text",
-            widget=settings.EDITORS["TipTap"].get_widget_object(editor_init=True)
+            widget=settings.EDITORS["TipTap"].get_widget_object(init_editor=True)
         )
 
     form = DummyForm()
@@ -119,7 +119,7 @@ def test_base_field(settings):
         field = DjangoBaseEditorField(
             label="Rich text",
             editor=settings.EDITORS["TipTap"],
-            editor_init=False,
+            init_editor=False,
         )
 
     form = DummyForm()
@@ -141,7 +141,7 @@ def test_base_field(settings):
         field = DjangoBaseEditorField(
             label="Rich text",
             editor=settings.EDITORS["TipTap"],
-            editor_init=True,
+            init_editor=True,
         )
 
     form = DummyForm()
@@ -168,7 +168,7 @@ def test_concrete_field(settings):
     """
     # Without editor init
     class DummyForm(forms.Form):
-        field = TipTapField(label="Rich text", editor_init=False)
+        field = TipTapField(label="Rich text", init_editor=False)
 
     form = DummyForm()
 
@@ -188,7 +188,7 @@ def test_concrete_field(settings):
     class DummyForm(forms.Form):
         field = TipTapField(
             label="Rich text",
-            editor_init=True,
+            init_editor=True,
             editor_options={"dummy": ["pip", "pop"], "ping": None},
         )
 

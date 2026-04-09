@@ -27,9 +27,9 @@
  * @param {HTMLElement} form - Form element where the editor will edit an input. This
  *                      is currently only used to listen to 'submit' event from form.
  *                      WARNING: If you mount editor on a required input, the browser
- *                      will block the event because of "Constraint Validation API" and
- *                      so either you remove the required constraint from input or you
- *                      apply the 'novalidate' attribute on the form.
+ *                      will block the submit event because of "Constraint Validation
+ *                      API" and so either you remove the required constraint from input
+ *                      or you apply the 'novalidate' attribute on the form.
  * @param {boolean} sync - Enable synchronizing editor content into input on editor
  *                  content changes (as when typing something).
  */
@@ -45,6 +45,16 @@ export class DjangoBaseEditor {
         this.classNames = args.classNames || "";
         this.sync = args.sync || false;
         this.container = null;
+
+        /*
+        console.log("🏗️constructor");
+        console.log("this.form:", this.form);
+        console.log("this.source:", this.source.id);
+        console.log("this.options:", this.options);
+        console.log("this.initial:", this.initial);
+        console.log("this.sync:", this.sync);
+        console.log("this.classNames:", this.classNames);
+        */
     }
 
     /**
@@ -56,6 +66,7 @@ export class DjangoBaseEditor {
      *                     False.
      */
     isFormControl(source) {
+        console.log("source.tagName:", source.tagName);
         if (source.tagName === "INPUT" || source.tagName === "TEXTAREA") {
             return true;
         }
@@ -97,7 +108,6 @@ export class DjangoBaseEditor {
         if(!this.source) {
             throw new Error("The argument 'source' can not be empty");
         }
-        // console.log("🍱 Source:", this.source.id);
 
         // Only replace a source element that is not a valid container for the editor
         // elements
@@ -109,7 +119,7 @@ export class DjangoBaseEditor {
             const replacement = document.createElement("div");
             replacement.id = this.source.id + "_editor";
 
-            // add data for brother selector
+            // add data for the brother selector
             replacement.dataset.source = "#" + this.source.id;
             this.source.dataset.replacement = "#" + replacement.id;
 

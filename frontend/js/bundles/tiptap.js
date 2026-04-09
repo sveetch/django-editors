@@ -1,7 +1,10 @@
 /*
  * Editor class for TipTap V3
  *
- * TODO: - This is a very minimal implementation, it would need a lot more to be helpful
+ * TODO:
+ * This is a very minimal implementation, it would need a lot more to be really
+ * useful. Currently there is no toolbar. Some shortcuts are available (like alt-b to
+ * make bold a selection, etc..). Should dig into cms-text to look how to proceed.
  */
 
 import { Editor } from "@tiptap/core"
@@ -30,11 +33,12 @@ class DjangoTipTap extends DjangoBaseEditor {
     provide() {
         this.container = this.prepareContainer();
 
-        this.editor = new Editor({
+        let base_options = {
             element: this.container,
             extensions: [StarterKit],
             content: this.initial,
-        });
+        };
+        this.editor = new Editor({...base_options, ...this.options});
 
         // Listen to editor content update to synchronize it in input value
         if (this.sync === true) {
@@ -43,7 +47,7 @@ class DjangoTipTap extends DjangoBaseEditor {
             });
         }
 
-        // Listen to to form submit to synchronize editor content in input value
+        // Listen to form submit to synchronize editor content in input value
         if (this.form) {
             this.form.addEventListener("submit", (e) => {
                 this.synchronizeInput(e);

@@ -1,4 +1,4 @@
-{% include "django/forms/widgets/textarea.html" %}{% if widget.editor_init %}
+{% include "django/forms/widgets/textarea.html" %}{% if widget.init_editor %}
 <script>
 let {{ widget.attrs.id|slugify }} = new {{ widget.editor.component_name }}({
     "source": document.querySelector("#{{ widget.attrs.id }}"),{% if widget.editor_options %}
@@ -6,4 +6,5 @@ let {{ widget.attrs.id|slugify }} = new {{ widget.editor.component_name }}({
     "classNames": "form-control"
 });
 {{ widget.attrs.id|slugify }}.provide();
-</script>{% endif %}
+</script>
+{% endif %}

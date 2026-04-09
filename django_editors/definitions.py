@@ -20,6 +20,10 @@ class RichEditorDefinition:
         ``name`` value must be a valid Python identifier because it can be used
         to compute object names. So we need to validate this value.
 
+    .. TODO::
+        'editor_options' and 'wrapper_options' should be configurable from definition
+        like 'options'.
+
     Arguments:
         name (string): Key name used in registry and internals.
 
@@ -46,7 +50,9 @@ class RichEditorDefinition:
     component_name: str = None
     js: list[str] = dataclasses_field(default_factory=list)
     css: list[str] = dataclasses_field(default_factory=list)
-    options: dict = dataclasses_field(default_factory=dict)
+    widget_options: dict = dataclasses_field(default_factory=dict)
+    editor_options: dict = dataclasses_field(default_factory=dict)
+    wrapper_options: dict = dataclasses_field(default_factory=dict)
 
     def __post_init__(self):
         """
@@ -84,16 +90,18 @@ class RichEditorDefinition:
         Returns:
             dict:
         """
-        options = deepcopy(self.options)
+        options = {
+            "editor_options": deepcopy(self.editor_options),
+            "wrapper_options": deepcopy(self.wrapper_options),
+            "widget_options": deepcopy(self.widget_options),
+        }
 
-        if kwargs.get("editor_init") is True or kwargs.get("editor_init") is False:
-            options["editor_init"] = kwargs.get("editor_init")
+        options["editor_options"].update(kwargs.get("editor_options", {}))
+        options["wrapper_options"].update(kwargs.get("wrapper_options", {}))
+        options["widget_options"].update(kwargs.get("widget_options", {}))
 
-        if kwargs.get("editor_options"):
-            options["editor_options"] = kwargs.get("editor_options")
-
-        if kwargs.get("wrapper_options"):
-            options["wrapper_options"] = kwargs.get("wrapper_options")
+        if kwargs.get("init_editor") is True or kwargs.get("init_editor") is False:
+            options["init_editor"] = kwargs.get("init_editor")
 
         return options
 

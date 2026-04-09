@@ -22,5 +22,14 @@ EDITORS = {
         css=["js/suneditor.min.css"],
         widget="django_editors.widgets.SunEditorWidget",
         formfield="django_editors.formfields.SunEditorField",
+        editor_options={},
+        wrapper_options={"sync": True},
+    ),
+    "CodeMirror6": RichEditorDefinition(
+        name="CodeMirror6",
+        js=["js/bundle-codemirror.js"],
+        #css=["js/codemirror.min.css"],
+        widget="django_editors.widgets.CodeMirror6Widget",
+        formfield="django_editors.formfields.CodeMirror6Field",
     ),
 }

@@ -330,7 +330,7 @@ freeze-dependencies:
 	@echo ""
 	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Freeze dependencies versions <---$(FORMATRESET)\n"
 	@echo ""
-	$(VENV_PATH)/bin/python freezer.py ${PACKAGE_NAME} --destination=frozen.txt
+	$(PYTHON_BIN) freezer.py ${PACKAGE_NAME} --destination=frozen.txt
 .PHONY: freeze-dependencies
 
 build-package:
@@ -338,7 +338,7 @@ build-package:
 	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Build package <---$(FORMATRESET)\n"
 	@echo ""
 	rm -Rf dist
-	$(VENV_PATH)/bin/python setup.py sdist
+	$(PYTHON_BIN) setup.py sdist
 .PHONY: build-package
 
 release: build-package

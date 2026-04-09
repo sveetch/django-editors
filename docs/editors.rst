@@ -13,7 +13,7 @@ TipTap
 https://tiptap.dev/docs
 
 TipTap is probably the most flexible and strong modern editor thanks to its base that
-stand on ProseMirror. It is fully free except for some specific extensions like
+stand on ProseMirror. It is free except for some specific extensions like
 collaboration or AI things.
 
 https://tiptap.dev/docs/examples
@@ -21,7 +21,7 @@ https://tiptap.dev/docs/examples
 We are providing a very minimal version in a bundle that just works but without any
 feature you could expect from an editor. You may find a lot of guides and examples to
 make your own improved bundle easily if you are working with React. Else you will need
-some work achieve it yourself with different environment like VanillaJS, Vue, etc..
+some work to achieve it yourself with different environment like VanillaJS, Vue, etc..
 
 Its definition is registred with name ``TipTap`` in ``settings.EDITORS``.
 
@@ -41,3 +41,17 @@ Because it includes CSS stylesheets in its JavaScript component we need Webpack 
 'css-loader' and 'MiniCssExtractPlugin' to build it.
 
 Its definition is registred with name ``SunEditor`` in ``settings.EDITORS``.
+
+CodeMirror 6
+************
+
+https://codemirror.net/
+
+Unlike other "Rich content" editors, this one is intended to edit code source because
+it makes syntax highlighting for a specific langage.
+
+It would work best if you need to edit Markdown, SQL or source code from langage
+(JavaScript, HTML, Python, etc..).
+
+Our bundle includes a few langages and you may need to build bundle yourself to use
+another one, or load and enable the langage aside.

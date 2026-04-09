@@ -10,7 +10,7 @@ class DjangoBaseEditorField(forms.CharField):
         editor (RichEditorDefinition): Required Rich editor definition instance. Either
             your concrete base editor class define this attribute or it will have to
             give a value from argument.
-        editor_init (boolean): If true the widget render will include the
+        init_editor (boolean): If true the widget render will include the
             Javascript code to initialize editor (just below the input in default
             widget template). If disabled the editor component won't be automatically
             initialized and developer will have to do it himself.
@@ -24,13 +24,13 @@ class DjangoBaseEditorField(forms.CharField):
 
     Keyword Arguments:
         editor (RichEditorDefinition): To overwrite the homonym attribute value.
-        editor_init (boolean): To overwrite the homonym attribute value.
+        init_editor (boolean): To overwrite the homonym attribute value.
         editor_options (dict): To overwrite the homonym attribute value.
         wrapper_options (dict): To overwrite the homonym attribute value.
     """
     def __init__(self, *args, **kwargs):
         self.editor = kwargs.pop("editor", getattr(self, "editor", None))
-        self.editor_init = kwargs.pop("editor_init", getattr(self, "editor_init", True))
+        self.init_editor = kwargs.pop("init_editor", getattr(self, "init_editor", True))
         self.editor_options = kwargs.pop(
             "editor_options",
             getattr(self, "editor_options", {})
@@ -49,7 +49,7 @@ class DjangoBaseEditorField(forms.CharField):
         kwargs.update({
             "widget": self.editor.get_widget_object(
                 editor_options=self.editor_options,
-                editor_init=self.editor_init,
+                init_editor=self.init_editor,
                 wrapper_options=self.wrapper_options,
             )
         })
@@ -88,6 +88,24 @@ class SunEditorField(DjangoBaseEditorField):
         self.editor = kwargs.pop(
             "editor",
             settings.EDITORS["SunEditor"]
+        )
+
+        super().__init__(*args, **kwargs)
+
+
+class CodeMirror6Field(DjangoBaseEditorField):
+    """
+    CodeMirror 6 form field.
+
+    Keyword Arguments:
+        editor (RichEditorDefinition): Rich editor definition instance. This will
+            overwrite the default CodeMirror editor definition. Default value use the
+            CodeMirror6 definition from ``settings.EDITORS``
+    """
+    def __init__(self, *args, **kwargs):
+        self.editor = kwargs.pop(
+            "editor",
+            settings.EDITORS["CodeMirror6"]
         )
 
         super().__init__(*args, **kwargs)

@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     // Disable production-specific optimizations by default
-    // They can be re-enabled by running the cli with `--mode=production` or making a
+    // They can be enabled by running the cli with `--mode=production` or making a
     // separate webpack config for production.
     mode: "development",
 
@@ -17,6 +17,7 @@ module.exports = {
         "main": "./js/main.js",
         "bundle-tiptap": "./js/bundles/tiptap.js",
         "bundle-suneditor": "./js/bundles/suneditor.js",
+        "bundle-codemirror": "./js/bundles/codemirror.js",
     },
 
     // Built JS files goes into sandbox staticfile directory
