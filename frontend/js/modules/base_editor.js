@@ -1,8 +1,11 @@
 /*
  * Django editor basic abstract
  *
- * TODO: Rewrite doc for *_options since of move of 'sync' and 'form' opts into
+ * TODO:
+ * - Rewrite doc for *_options since of move of 'sync' and 'form' opts into
  * 'wrapper_options' and renamed 'options' to 'editor_options'
+ * - 'wrapper_options.form' has to be a selector in a string resolved with
+ *   'document.querySelector' from 'attached_form' setter
  */
 
 
