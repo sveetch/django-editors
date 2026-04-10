@@ -38,18 +38,18 @@ class DjangoTipTap extends DjangoBaseEditor {
             extensions: [StarterKit],
             content: this.initial,
         };
-        this.editor = new Editor({...base_options, ...this.options});
+        this.editor = new Editor({...base_options, ...this.editor_options});
 
         // Listen to editor content update to synchronize it in input value
-        if (this.sync === true) {
+        if (this.is_sync) {
             this.editor.on("update", ({editor}) => {
                 this.synchronizeInput(editor);
             });
         }
 
         // Listen to form submit to synchronize editor content in input value
-        if (this.form) {
-            this.form.addEventListener("submit", (e) => {
+        if (this.attached_form) {
+            this.attached_form.addEventListener("submit", (e) => {
                 this.synchronizeInput(e);
             });
         }

@@ -2,7 +2,8 @@
 <script>
 let {{ widget.attrs.id|slugify }} = new {{ widget.editor.component_name }}({
     "source": document.querySelector("#{{ widget.attrs.id }}"),{% if widget.editor_options %}
-    "editor_options": {{  widget.editor_options|safe }},{% endif %}
+    "editor_options": {{  widget.editor_options|safe }},{% endif %}{% if widget.wrapper_options %}
+    "wrapper_options": {{  widget.wrapper_options|safe }},{% endif %}
     "classNames": "form-control"
 });
 {{ widget.attrs.id|slugify }}.provide();

@@ -48,6 +48,7 @@ class DjangoBaseEditorField(forms.CharField):
         # Add widget to the field
         kwargs.update({
             "widget": self.editor.get_widget_object(
+                editor=self.editor,
                 editor_options=self.editor_options,
                 init_editor=self.init_editor,
                 wrapper_options=self.wrapper_options,

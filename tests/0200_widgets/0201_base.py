@@ -107,12 +107,9 @@ def test_editor_options_with_init(settings):
         "let id_text = new DjangoFoobar({"
         " \"source\": document.querySelector(\"#id_text\"),"
         " \"editor_options\": {\"dummy\": [\"pip\", \"pop\"], \"ping\": null},"
+        " \"wrapper_options\": {\"ping\": \"pong\"},"
         " \"classNames\": \"form-control\""
         " });"
         " id_text.provide();"
         " </script>"
     )
-
-    # Here it is ok, continue to absorb change on options passing to formfields then
-    # widget render template (and special 'sync' and 'form' arg ?)
-    assert 1 == 42

@@ -15,6 +15,7 @@ EDITORS = {
         js=["js/bundle-tiptap.js"],
         widget="django_editors.widgets.TipTapWidget",
         formfield="django_editors.formfields.TipTapField",
+        wrapper_options={"sync": True},
     ),
     "SunEditor": RichEditorDefinition(
         name="SunEditor",
@@ -31,5 +32,6 @@ EDITORS = {
         #css=["js/codemirror.min.css"],
         widget="django_editors.widgets.CodeMirror6Widget",
         formfield="django_editors.formfields.CodeMirror6Field",
+        wrapper_options={"sync": True},
     ),
 }

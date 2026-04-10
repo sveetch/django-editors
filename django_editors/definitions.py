@@ -103,6 +103,9 @@ class RichEditorDefinition:
         if kwargs.get("init_editor") is True or kwargs.get("init_editor") is False:
             options["init_editor"] = kwargs.get("init_editor")
 
+        if kwargs.get("editor"):
+            options["editor"] = kwargs.get("editor")
+
         return options
 
     def get_widget_class(self):

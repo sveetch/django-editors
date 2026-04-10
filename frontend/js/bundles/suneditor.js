@@ -49,14 +49,13 @@ class DjangoSunEditor extends DjangoBaseEditor {
             ...{
                 events: {
                     onChange: (e) => {
-                        console.log("Sundeditor onChange:sync:", this.sync);
-                        if (this.sync === true) {
+                        if (this.is_sync) {
                             this.synchronizeInput(e);
                         }
                     }
                 },
             },
-            ...this.options
+            ...this.editor_options
         };
 
         this.editor = suneditor.create(
@@ -65,8 +64,8 @@ class DjangoSunEditor extends DjangoBaseEditor {
         );
 
         // Listen to form submit to synchronize editor content in input value
-        if (this.form) {
-            this.form.addEventListener("submit", (e) => {
+        if (this.attached_form) {
+            this.attached_form.addEventListener("submit", (e) => {
                 this.synchronizeInput(e);
             });
         }

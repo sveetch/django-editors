@@ -28,6 +28,7 @@ def test_widget_tiptap(settings):
         "let id_text = new DjangoTipTap({"
         " \"source\": document.querySelector(\"#id_text\"),"
         " \"editor_options\": {\"dummy\": [\"pip\", \"pop\"], \"ping\": null},"
+        " \"wrapper_options\": {\"sync\": true},"
         " \"classNames\": \"form-control\""
         " });"
         " id_text.provide();"

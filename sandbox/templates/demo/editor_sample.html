@@ -184,7 +184,7 @@
         let editor_div_empty = new {{ editor_definition.component_name }}({
             "source": document.querySelector('#editor-div-empty'),
             "classNames": "form-control",
-            "form": form_sample,
+            "wrapper_options": {"form": form_sample}
         });
         editor_div_empty.provide();
 
@@ -192,7 +192,7 @@
             "source": document.querySelector('#editor-div-initial'),
             "initial": '<p>An <b>editor</b> initial value</p>',
             "classNames": "form-control",
-            "form": form_sample,
+            "wrapper_options": {"form": form_sample}
         });
         editor_div_initial.provide();
     </script>

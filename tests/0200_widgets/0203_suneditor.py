@@ -24,6 +24,7 @@ def test_widget_suneditor(settings):
         "<script>"
         "let id_text = new DjangoSunEditor({"
         " \"source\": document.querySelector(\"#id_text\"),"
+        " \"wrapper_options\": {\"sync\": true},"
         " \"classNames\": \"form-control\""
         " });"
         " id_text.provide();"

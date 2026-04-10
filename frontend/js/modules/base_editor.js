@@ -1,5 +1,8 @@
 /*
  * Django editor basic abstract
+ *
+ * TODO: Rewrite doc for *_options since of move of 'sync' and 'form' opts into
+ * 'wrapper_options' and renamed 'options' to 'editor_options'
  */
 
 
@@ -19,11 +22,14 @@
  *                 content value. This is not recommended when source is a form control
  *                 because whatever you input, after a submit the initial value will
  *                 overwrite it in the form control.
- * @param {object} options - Options to give to editor during initialization. Passing
+ * @param {object} editor_options - Options to give to editor during initialization. Passing
  *                 options to editor is left to concrete 'DjangoBaseEditor'
  *                 implementation in 'provide()' method. This is an empty object on
  *                 default.
  * @param {string} classNames - CSS class names to append onto container element.
+ *
+ * Wrapper options:
+ *
  * @param {HTMLElement} form - Form element where the editor will edit an input. This
  *                      is currently only used to listen to 'submit' event from form.
  *                      WARNING: If you mount editor on a required input, the browser
@@ -38,23 +44,54 @@ export class DjangoBaseEditor {
         this.validate(args);
 
         this.editor = null;
-        this.form = args.form;
         this.source = args.source;
-        this.options = args.options || {};
+        this.editor_options = args.editor_options || {};
+        this.wrapper_options = args.wrapper_options || {};
         this.initial = args.initial || "";
         this.classNames = args.classNames || "";
-        this.sync = args.sync || false;
         this.container = null;
+        // Deprecated
+        // this.form = args.form;
+        // this.sync = args.sync || false;
 
         /*
         console.log("🏗️constructor");
         console.log("this.form:", this.form);
         console.log("this.source:", this.source.id);
-        console.log("this.options:", this.options);
+        console.log("this.editor_options:", this.editor_options);
+        console.log("this.wrapper_options:", this.wrapper_options);
         console.log("this.initial:", this.initial);
         console.log("this.sync:", this.sync);
         console.log("this.classNames:", this.classNames);
         */
+    }
+
+    /**
+     * Getter around wrapper option 'sync'
+     */
+    get is_sync() {
+        return this.wrapper_options["sync"] === true ? true : false;
+    }
+
+    /**
+     * Setter around wrapper option 'sync'
+     */
+    set is_sync(value) {
+        this.wrapper_options["sync"] = value;
+    }
+
+    /**
+     * Getter around wrapper option 'form'
+     */
+    get attached_form() {
+        return this.wrapper_options["form"];
+    }
+
+    /**
+     * Getter around wrapper option 'form'
+     */
+    set attached_form(value) {
+        this.wrapper_options["form"] = value;
     }
 
     /**
@@ -66,7 +103,6 @@ export class DjangoBaseEditor {
      *                     False.
      */
     isFormControl(source) {
-        console.log("source.tagName:", source.tagName);
         if (source.tagName === "INPUT" || source.tagName === "TEXTAREA") {
             return true;
         }

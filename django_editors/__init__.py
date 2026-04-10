@@ -1,4 +1,4 @@
-"""A Django application which provide many editor choices to embed in your forms"""
+"""A Django application which provides many Rich editors to embed in your forms"""
 from importlib.metadata import version
 
 

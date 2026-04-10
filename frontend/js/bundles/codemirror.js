@@ -3,8 +3,7 @@
  *
  * - Manage initial/filled cases;
  * - Use something else than JS for default language;
- * - We may implement a "language chooser" with a transaction looking on some select input:
- * https://codemirror.net/try/#c=aW1wb3J0IHtFZGl0b3JTdGF0ZSwgQ29tcGFydG1lbnR9IGZyb20gIkBjb2RlbWlycm9yL3N0YXRlIgppbXBvcnQge2h0bWxMYW5ndWFnZSwgaHRtbH0gZnJvbSAiQGNvZGVtaXJyb3IvbGFuZy1odG1sIgppbXBvcnQge2xhbmd1YWdlfSBmcm9tICJAY29kZW1pcnJvci9sYW5ndWFnZSIKaW1wb3J0IHtqYXZhc2NyaXB0fSBmcm9tICJAY29kZW1pcnJvci9sYW5nLWphdmFzY3JpcHQiCgpjb25zdCBsYW5ndWFnZUNvbmYgPSBuZXcgQ29tcGFydG1lbnQKCmNvbnN0IGF1dG9MYW5ndWFnZSA9IEVkaXRvclN0YXRlLnRyYW5zYWN0aW9uRXh0ZW5kZXIub2YodHIgPT4gewogIGlmICghdHIuZG9jQ2hhbmdlZCkgcmV0dXJuIG51bGwKICBsZXQgZG9jSXNIVE1MID0gL15ccyo8Ly50ZXN0KHRyLm5ld0RvYy5zbGljZVN0cmluZygwLCAxMDApKQogIGxldCBzdGF0ZUlzSFRNTCA9IHRyLnN0YXJ0U3RhdGUuZmFjZXQobGFuZ3VhZ2UpID09IGh0bWxMYW5ndWFnZQogIGlmIChkb2NJc0hUTUwgPT0gc3RhdGVJc0hUTUwpIHJldHVybiBudWxsCiAgcmV0dXJuIHsKICAgIGVmZmVjdHM6IGxhbmd1YWdlQ29uZi5yZWNvbmZpZ3VyZShkb2NJc0hUTUwgPyBodG1sKCkgOiBqYXZhc2NyaXB0KCkpCiAgfQp9KQoKaW1wb3J0IHtFZGl0b3JWaWV3LCBiYXNpY1NldHVwfSBmcm9tICJjb2RlbWlycm9yIgoKbmV3IEVkaXRvclZpZXcoewogIGRvYzogJ2NvbnNvbGUubG9nKCJoZWxsbyIpJywKICBleHRlbnNpb25zOiBbCiAgICBiYXNpY1NldHVwLAogICAgbGFuZ3VhZ2VDb25mLm9mKGphdmFzY3JpcHQoKSksCiAgICBhdXRvTGFuZ3VhZ2UKICBdLAogIHBhcmVudDogZG9jdW1lbnQucXVlcnlTZWxlY3RvcigiI2VkaXRvciIpIHx8IGRvY3VtZW50LmJvZHkKfSkK
+ * - We may implement a "language chooser" with a transaction looking on some select input (see Todo)
  *
  */
 import {EditorView, basicSetup} from "codemirror";
@@ -45,9 +44,9 @@ class DjangoCodeMirror6 extends DjangoBaseEditor {
             return null
         });
 
-        // only push seekForEditorUpdate extension if this.sync is enabled
+        // only push seekForEditorUpdate extension if 'sync' is enabled
         const extensions = [basicSetup, javascript()];
-        if (this.sync === true) {
+        if (this.is_sync) {
             extensions.push(seekForEditorUpdate);
         }
 
@@ -57,19 +56,11 @@ class DjangoCodeMirror6 extends DjangoBaseEditor {
             extensions: extensions,
         };
 
-        this.editor = new EditorView({...base_options, ...this.options});
-
-        // Listen to editor content update to synchronize it in input value
-//         if (this.sync === true) {
-//             this.editor.on("update", ({editor}) => {
-//                 this.synchronizeInput(editor);
-//             });
-//         }
+        this.editor = new EditorView({...base_options, ...this.editor_options});
 
         // Listen to form submit to synchronize editor content in input value
-        // TODO: This is not working yet
-        if (this.form) {
-            this.form.addEventListener("submit", (e) => {
+        if (this.attached_form) {
+            this.attached_form.addEventListener("submit", (e) => {
                 this.synchronizeInput(e);
             });
         }

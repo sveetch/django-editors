@@ -6,7 +6,10 @@ Changelog
 Development
 ***********
 
-Todo
+* Added Codemirror v6 editor;
+* Refactored editor options in definition, widget, fields and bundles;
+* Fixed issues with options;
+* Continued test coverage;
 
 
 Version 0.2.0 - 2026/01/31
