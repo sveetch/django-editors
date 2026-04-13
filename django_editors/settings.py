@@ -39,7 +39,7 @@ EDITORS = {
                 "html",
                 "javascript",
                 "jinja",
-                "python"
+                "python",
                 "sass",
             ],
             # Enabled language extension
