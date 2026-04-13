@@ -201,7 +201,7 @@ def test_field_init(settings):
             label="Rich text",
             editor=editor,
             init_editor=True,
-                editor_options={"dummy": ["pip", "pop"], "ping": None},
+            editor_options={"dummy": ["pip", "pop"], "ping": None},
         )
 
     form = DummyForm()

@@ -1,18 +1,18 @@
 /*
+ *
  * Django editor basic abstract
  *
- * TODO:
- * - Rewrite doc for *_options since of move of 'sync' and 'form' opts into
- * 'wrapper_options' and renamed 'options' to 'editor_options'
- * - 'wrapper_options.form' has to be a selector in a string resolved with
- *   'document.querySelector' from 'attached_form' setter
+ * TODO: 'form' or 'sync' won't do anything if the source element is not an input. So
+ * we may need an additional option like 'target_input' that could be used to carry
+ * editor content value to be submitted.
  */
 
 
 /**
  * Editor abstract class
  *
- * Abstraction to inherit to implement shared way to initialize an editor.
+ * Abstraction to inherit to implement the shared way to initialize an editor. This is
+ * formerly called the "editor wrapper".
  *
  * Basically the input source is not automatically updated with editor content, either
  * use argument 'form' or 'sync' to enable the prefered behavior, avoid to use them
@@ -25,10 +25,11 @@
  *                 content value. This is not recommended when source is a form control
  *                 because whatever you input, after a submit the initial value will
  *                 overwrite it in the form control.
- * @param {object} editor_options - Options to give to editor during initialization. Passing
- *                 options to editor is left to concrete 'DjangoBaseEditor'
+ * @param {object} editor_options - Options to give to editor during initialization.
+ *                 Passing options to editor is left to concrete 'DjangoBaseEditor'
  *                 implementation in 'provide()' method. This is an empty object on
  *                 default.
+ * @param {object} wrapper_options - Options for the wrapper itself.
  * @param {string} classNames - CSS class names to append onto container element.
  *
  * Wrapper options:
@@ -53,45 +54,55 @@ export class DjangoBaseEditor {
         this.initial = args.initial || "";
         this.classNames = args.classNames || "";
         this.container = null;
-        // Deprecated
-        // this.form = args.form;
-        // this.sync = args.sync || false;
 
         /*
         console.log("🏗️constructor");
-        console.log("this.form:", this.form);
         console.log("this.source:", this.source.id);
         console.log("this.editor_options:", this.editor_options);
         console.log("this.wrapper_options:", this.wrapper_options);
         console.log("this.initial:", this.initial);
-        console.log("this.sync:", this.sync);
         console.log("this.classNames:", this.classNames);
+        console.log("this.is_sync:", this.is_sync);
+        console.log("this.attached_form:", this.attached_form);
+        console.log("this.wrapper_options:", this.wrapper_options);
         */
+
     }
 
     /**
-     * Getter around wrapper option 'sync'
+     * Getter for wrapper option 'sync'
      */
     get is_sync() {
         return this.wrapper_options["sync"] === true ? true : false;
     }
 
     /**
-     * Setter around wrapper option 'sync'
+     * Setter for wrapper option 'sync'
      */
     set is_sync(value) {
         this.wrapper_options["sync"] = value;
     }
 
     /**
-     * Getter around wrapper option 'form'
+     * Getter for wrapper option 'form'
+     *
+     * If 'form' value from wrapper option is a string, we assume it is a selector to
+     * resolve from current document. If it is not a string it is return unchanged
+     * because we assume it is an HTMLElement.
      */
     get attached_form() {
+        if(
+            this.wrapper_options["form"]
+            && typeof this.wrapper_options["form"] === 'string'
+        ) {
+            return document.querySelector(this.wrapper_options["form"]);
+        }
+
         return this.wrapper_options["form"];
     }
 
     /**
-     * Getter around wrapper option 'form'
+     * Setter for wrapper option 'form'
      */
     set attached_form(value) {
         this.wrapper_options["form"] = value;

@@ -29,9 +29,21 @@ EDITORS = {
     "CodeMirror6": RichEditorDefinition(
         name="CodeMirror6",
         js=["js/bundle-codemirror.js"],
-        #css=["js/codemirror.min.css"],
         widget="django_editors.widgets.CodeMirror6Widget",
         formfield="django_editors.formfields.CodeMirror6Field",
-        wrapper_options={"sync": True},
+        wrapper_options={
+            "sync": True,
+            # Possible extensions (must be implemented in editor wrapper)
+            "allowed_extensions": [
+                "css",
+                "html",
+                "javascript",
+                "jinja",
+                "python"
+                "sass",
+            ],
+            # Enabled language extension
+            "lang_extension": "html",
+        },
     ),
 }

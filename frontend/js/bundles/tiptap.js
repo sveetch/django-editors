@@ -7,8 +7,8 @@
  * make bold a selection, etc..). Should dig into cms-text to look how to proceed.
  */
 
-import { Editor } from "@tiptap/core"
-import StarterKit from "@tiptap/starter-kit"
+import { Editor } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
 
 import { DjangoBaseEditor } from "../modules/base_editor";
 

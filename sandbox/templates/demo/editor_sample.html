@@ -12,54 +12,7 @@
     <div class="container">
         <h2 class="title mb-4">{{ editor_definition.label }}</h2>
 
-        {% if editor_definition.name == "SunEditor" %}
-            <div class="row mb-1">
-                <figure class="col">
-                    <blockquote class="blockquote">
-                        <p>A lightweight and powerful WYSIWYG editor in vanilla JavaScript. No dependencies.</p>
-                    </blockquote>
-
-                    <figcaption class="blockquote-footer">
-                        <a href="https://github.com/JiHong88/suneditor" target="_blank">Repository</a>
-                    </figcaption>
-                </figure>
-
-                <div class="col">
-                    <p>
-                        SundEditor is a modern rich editor with a CKEditor alike
-                        experience. It is a standalone editor which does not require
-                        any external dependencies while perfectly able to work with
-                        vanilla JavaScript, React, etc..
-                    </p>
-                    <p>
-                        We included the version 3 (currently in beta stage).
-                    </p>
-                </div>
-            </div>
-        {% elif editor_definition.name == "TipTap" %}
-            <div class="row mb-1">
-                <figure class="col">
-                    <blockquote class="blockquote">
-                        <p>The headless rich text editor framework for web artisans.</p>
-                    </blockquote>
-
-                    <figcaption class="blockquote-footer">
-                        <a href="https://github.com/ueberdosis/tiptap" target="_blank">Repository</a>
-                    </figcaption>
-                </figure>
-
-                <div class="col">
-                    <p>
-                        TipTap is a modern rich editor based on ProseMirror. Extremely powerful
-                        and flexible but need some work to be properly implemented for a useful
-                        user experience.
-                    </p>
-                    <p>
-                        We included the version 3.
-                    </p>
-                </div>
-            </div>
-        {% endif %}
+        {% include "demo/partials/editor_information.html" with editor_definition=editor_definition only %}
 
         <form id="form-sample" action="" method="post" novalidate>
             {% csrf_token %}
@@ -178,13 +131,12 @@
 {% endspaceless %}{% endblock app_content %}
 
 {% block body-javascript-extra %}
+    {% comment %}Values are not posted since they have no related field in form{% endcomment %}
     <script>
-        let form_sample = document.querySelector('#form-sample');
-
         let editor_div_empty = new {{ editor_definition.component_name }}({
             "source": document.querySelector('#editor-div-empty'),
             "classNames": "form-control",
-            "wrapper_options": {"form": form_sample}
+            "wrapper_options": {"form": '#form-sample'}
         });
         editor_div_empty.provide();
 
@@ -192,7 +144,7 @@
             "source": document.querySelector('#editor-div-initial'),
             "initial": '<p>An <b>editor</b> initial value</p>',
             "classNames": "form-control",
-            "wrapper_options": {"form": form_sample}
+            "wrapper_options": {"form": '#form-sample'}
         });
         editor_div_initial.provide();
     </script>
