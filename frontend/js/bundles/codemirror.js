@@ -1,5 +1,5 @@
 /*
- * Editor class for CodeMirror 6
+ * Editor class for CodeMirror V6
  */
 import {basicSetup} from "codemirror";
 import {EditorView, keymap} from "@codemirror/view";

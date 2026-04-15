@@ -10,6 +10,7 @@ Install package in your environment : ::
 
 For development usage see :ref:`development_install`.
 
+
 Configuration
 *************
 
@@ -31,7 +32,8 @@ Then mount applications URLs: ::
         path("", include("django_editors.urls")),
     ]
 
-And finally apply database migrations.
+There is not migration to apply because this application does not provide any model.
+
 
 Settings
 ********

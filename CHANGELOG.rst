@@ -7,6 +7,7 @@ Development
 ***********
 
 * Added Codemirror v6 editor;
+* Upgraded to SunEditor 3.1.0;
 * Refactored editor options in definition, widget, fields and bundles;
 * Fixed issues with options;
 * Continued test coverage;

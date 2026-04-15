@@ -9,12 +9,11 @@
  *       - How to enable plugins ?
  *       - Search if MiniCssExtractPlugin can produce CSS into '../css/' instead of
  *         the 'js/' directory.
- *       - Upgrade to final v3 release
  */
 
-import "suneditor/css"; // Editor UI
-import "suneditor/css/contents"; // For displaying HTML
 import suneditor from "suneditor";
+import "suneditor/css/editor";
+import "suneditor/css/contents";
 
 import { DjangoBaseEditor } from "../modules/base_editor";
 
@@ -26,7 +25,12 @@ class DjangoSunEditor extends DjangoBaseEditor {
      * Save editor content into source value
      */
     synchronizeInput(e) {
-        this.editor.run("save");
+        // Worked in 3.0.0beta34 but not since 3.0.0 release
+        // this.editor.run("save");
+        // Doing it in the raw way for now
+        if (this.isFormControl(this.source) === true) {
+            this.source.innerHTML = e.data;
+        }
     }
 
     /**

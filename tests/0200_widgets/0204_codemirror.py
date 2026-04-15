@@ -17,9 +17,6 @@ def test_widget_codemirror(settings):
 
     widget = definition.get_widget_object(init_editor=True)
     input_render = widget.render("text", "<p>A <b>rich</b> content</p>")
-    print()
-    print(input_render)
-    print()
     assert html_element(input_render) == html_element(
         "<textarea id=\"id_text\" name=\"text\" cols=\"40\" rows=\"10\">"
         "&lt;p&gt;A &lt;b&gt;rich&lt;/b&gt; content&lt;/p&gt;"
