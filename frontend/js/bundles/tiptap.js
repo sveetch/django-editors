@@ -10,7 +10,7 @@
 import { Editor } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 
-import { DjangoBaseEditor } from "../modules/base_editor";
+import { DjangoBaseEditor } from "../modules/base_editor.js";
 
 /**
  * Very minimal implementation of TipTap

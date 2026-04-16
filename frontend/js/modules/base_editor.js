@@ -3,8 +3,9 @@
  * Django editor basic abstract
  *
  * TODO: 'form' or 'sync' won't do anything if the source element is not an input. So
- * we may need an additional option like 'target_input' that could be used to carry
- * editor content value to be submitted.
+ * we may need an additional option like 'target_input' for a input element that could
+ * be used to carry editor content value to be submitted (like for the editor linked
+ * to div element in sandbox demo).
  */
 
 

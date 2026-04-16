@@ -12,7 +12,7 @@ import {jinja} from "@codemirror/lang-jinja";
 import {python} from "@codemirror/lang-python";
 import {sass} from "@codemirror/lang-sass";
 
-import { DjangoBaseEditor } from "../modules/base_editor";
+import { DjangoBaseEditor } from "../modules/base_editor.js";
 
 /**
  * Very minimal implementation of CodeMirror

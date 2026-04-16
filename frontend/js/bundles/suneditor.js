@@ -15,7 +15,7 @@ import suneditor from "suneditor";
 import "suneditor/css/editor";
 import "suneditor/css/contents";
 
-import { DjangoBaseEditor } from "../modules/base_editor";
+import { DjangoBaseEditor } from "../modules/base_editor.js";
 
 /**
  * Very minimal implementation of SunEditor

@@ -262,19 +262,22 @@ css-prod:
 	cd $(FRONTEND_DIR) && npm run-script css-prod
 .PHONY: css-prod
 
-js:
+js-sandbox:
 	@echo ""
-	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Building distributed Javascript for development environment <---$(FORMATRESET)\n"
+	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Building distributed Javascript for sandbox <---$(FORMATRESET)\n"
 	@echo ""
-	cd $(FRONTEND_DIR) && npm run js
-.PHONY: js
+	cd $(FRONTEND_DIR) && npm run sandbox
+.PHONY: js-sandbox
 
-watch-js:
+js-bundles:
 	@echo ""
-	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Watching Javascript sources for development environment <---$(FORMATRESET)\n"
+	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Building distributed Javascript for editor bundles <---$(FORMATRESET)\n"
 	@echo ""
-	cd $(FRONTEND_DIR) && npm run watch-js
-.PHONY: watch-js
+	cd $(FRONTEND_DIR) && npm run bundles
+.PHONY: js-bundles
+
+js: js-sandbox js-bundles
+.PHONY: js
 
 js-prod:
 	@echo ""
@@ -282,6 +285,13 @@ js-prod:
 	@echo ""
 	cd $(FRONTEND_DIR) && npm run js-prod
 .PHONY: js-prod
+
+watch-js:
+	@echo ""
+	@printf "$(FORMATBLUE)$(FORMATBOLD)---> Watching Javascript sources for development environment <---$(FORMATRESET)\n"
+	@echo ""
+	cd $(FRONTEND_DIR) && npm run watch-js
+.PHONY: watch-js
 
 frontend: css js
 .PHONY: frontend

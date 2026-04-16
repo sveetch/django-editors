@@ -5,7 +5,9 @@
 //
 // Make Bootstrap components usable from templates (like "bootstrap.Modal(..)")
 //
-window.bootstrap = require("bootstrap/dist/js/bootstrap.bundle.js");
+import * as bootstrap from "bootstrap/dist/js/bootstrap.bundle.js";
+window.bootstrap = bootstrap;
+
 
 //
 // Make Bootstrap components usable inside modules (directly through component name)

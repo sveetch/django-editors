@@ -11,6 +11,9 @@ Development
 * Refactored editor options in definition, widget, fields and bundles;
 * Fixed issues with options;
 * Continued test coverage;
+* Restructured Webpack configuration so Sandbox assets and bundles are built
+  separately and so Sandbox assets go in sandbox statics and Bundles are built in
+  application static (and can be shipped in package);
 
 
 Version 0.2.0 - 2026/01/31
